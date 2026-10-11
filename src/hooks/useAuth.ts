@@ -8,6 +8,7 @@ export const useAuth = () => {
         mutationFn: fetchLogin,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["user_profile"] })
+            // You need to tell React Query to throw away the old cache and fetch fresh data after a successful login.
         }
     })
 }

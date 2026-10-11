@@ -20,7 +20,6 @@ export const apiClient = ofetch.create({
 export type ApiError = {
   status?: number;
   message: string;
-  // biome-ignore lint/suspicious/noExplicitAny: backend error payload shape varies
   data?: any;
 };
 
