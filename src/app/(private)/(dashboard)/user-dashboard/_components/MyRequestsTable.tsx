@@ -59,7 +59,7 @@ type MyRequestsTableProps = {
 
 export function MyRequestsTable({ requests, onDeleteClick }: MyRequestsTableProps) {
     return (
-        <div className="bg-white border border-slate-200 rounded-[2rem] shadow-sm overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
                 <Table>
                     <TableHeader>

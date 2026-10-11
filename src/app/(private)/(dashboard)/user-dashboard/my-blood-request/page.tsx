@@ -1,15 +1,18 @@
 "use client";
 
 import { Plus, FileText } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useMyBloodRequest } from "@/hooks/useRequester";
 import { MyRequestsTable } from "../_components/MyRequestsTable";
+import { useState } from "react";
+import { PostRequestModal } from "../_components/PostRequestModal";
 
 export default function MyBloodRequestsPage() {
     const { data, isPending, isFetching, error, refetch } = useMyBloodRequest(1, 10);
 
     const requests = data?.requester ?? [];
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
         <div className="space-y-6 pt-16">
@@ -23,13 +26,14 @@ export default function MyBloodRequestsPage() {
                         Manage all your blood requests, track status, and update details.
                     </p>
                 </div>
-                <Button asChild className="btn-main bg-[#B15A36] hover:bg-[#9a4e2e]">
-                    <Link href="/user-dashboard/my-requests/new">
-                        <Plus className="w-4 h-4 mr-1.5" />
-                        New Request
-                    </Link>
+                <Button onClick={() => setIsModalOpen(true)} className="btn-main bg-[#B15A36]">
+                    <Plus className="w-4 h-4 mr-1.5" />
+                    New Request
                 </Button>
             </div>
+            
+            {/* Trigger Modal */}
+            <PostRequestModal open={isModalOpen} onOpenChange={setIsModalOpen} />
 
             {/* Loading */}
             {isPending && (

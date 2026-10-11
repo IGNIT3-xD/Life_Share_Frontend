@@ -1,5 +1,5 @@
 import { type BloodRequestPayload, fetchBloodRequesters, fetchMyBloodRequest, postBloodRequest } from "@/api/requester";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useBloodRequester(rawPage = 1, rawLimit = 3) {
   return useQuery({
@@ -9,8 +9,15 @@ export function useBloodRequester(rawPage = 1, rawLimit = 3) {
 }
 
 export const usePostBloodRequest = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
-    mutationFn: (payload: BloodRequestPayload) => postBloodRequest(payload)
+    mutationFn: (payload: BloodRequestPayload) => postBloodRequest(payload),
+    
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blood_requester"] });
+      queryClient.invalidateQueries({ queryKey: ["my_blood_request"] });
+    }
   })
 }
 
