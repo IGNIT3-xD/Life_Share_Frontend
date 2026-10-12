@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import type { RequesterProp } from "@/components/RequesterCard";
+import { useState } from "react";
+import { ViewDetailsModal } from "./ViewDetailsModal";
 
 // ---- Helpers ----
 const formatBloodGroup = (group: string) =>
@@ -58,6 +60,8 @@ type MyRequestsTableProps = {
 };
 
 export function MyRequestsTable({ requests, onDeleteClick }: MyRequestsTableProps) {
+    const [selectedRequest, setSelectedRequest] = useState<RequesterProp | null>(null)
+
     return (
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
@@ -112,30 +116,33 @@ export function MyRequestsTable({ requests, onDeleteClick }: MyRequestsTableProp
                                 {/* Urgency */}
                                 <TableCell>
                                     <span className={cn(
-                                        "inline-flex items-center text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border",
+                                        "inline-flex items-center text-[10px] font-semibold tracking-wider px-2 py-1 rounded-full border",
                                         urgencyStyles[req.urgency] || "bg-slate-100 text-slate-600 border-slate-200"
                                     )}>
-                                        {req.urgency}
+                                        {req.urgency.charAt(0).toUpperCase() + req.urgency.slice(1).toLowerCase()}
                                     </span>
                                 </TableCell>
 
                                 {/* Status */}
                                 <TableCell>
                                     <span className={cn(
-                                        "inline-flex items-center text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border",
+                                        "inline-flex items-center text-[10px] font-semibold tracking-wider px-2 py-1 rounded-full border",
                                         verificationStyles[req.verificationStatus] || "bg-slate-100 text-slate-600 border-slate-200"
                                     )}>
-                                        {req.request_status?.replace("_", " ")}
+                                        {req.request_status
+                                            .replace(/_/g, " ")
+                                            .toLowerCase()
+                                            .replace(/^./, char => char.toUpperCase())}
                                     </span>
                                 </TableCell>
 
                                 {/* Status */}
                                 <TableCell>
                                     <span className={cn(
-                                        "inline-flex items-center text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border",
+                                        "inline-flex items-center text-[10px] font-semibold tracking-wider px-2 py-1 rounded-full border",
                                         statusStyles[req.request_status] || "bg-slate-100 text-slate-600 border-slate-200"
                                     )}>
-                                        {req.verificationStatus}
+                                        {req.verificationStatus.replace(/_/g, ' ').toLowerCase().replace(/^./, char => char.toUpperCase())}
                                     </span>
                                 </TableCell>
 
@@ -158,7 +165,8 @@ export function MyRequestsTable({ requests, onDeleteClick }: MyRequestsTableProp
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end" className="w-44 font-graphik">
                                             <DropdownMenuItem asChild>
-                                                <button type="button" className="cursor-pointer">
+                                                <button onClick={() => setSelectedRequest(req)} type="button"
+                                                    className="cursor-pointer">
                                                     <Eye className="w-4 h-4" />
                                                     View Details
                                                 </button>
@@ -184,6 +192,12 @@ export function MyRequestsTable({ requests, onDeleteClick }: MyRequestsTableProp
                     </TableBody>
                 </Table>
             </div>
+
+            <ViewDetailsModal
+                open={!!selectedRequest}
+                onOpenChange={(open) => !open && setSelectedRequest(null)}
+                request={selectedRequest}
+            />
         </div>
     );
 }

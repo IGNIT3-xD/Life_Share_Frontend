@@ -50,7 +50,7 @@ export function PostRequestModal({ open, onOpenChange }: PostRequestModalProps) 
             try {
                 // console.log(value);
 
-                const data = await createRequest({
+                await createRequest({
                     patientName: value.patientName,
                     blood_group: value.blood_group,
                     unit_required: Number(value.unit_required),
