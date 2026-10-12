@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import type { RequesterProp } from "@/components/RequesterCard";
 import { useState } from "react";
 import { ViewDetailsModal } from "./ViewDetailsModal";
+import { UpdateRequestModal } from "./UpdateRequestModal";
 
 // ---- Helpers ----
 const formatBloodGroup = (group: string) =>
@@ -61,6 +62,7 @@ type MyRequestsTableProps = {
 
 export function MyRequestsTable({ requests, onDeleteClick }: MyRequestsTableProps) {
     const [selectedRequest, setSelectedRequest] = useState<RequesterProp | null>(null)
+    const [UpdateModal, setUpdateModal] = useState<RequesterProp | null>(null)
 
     return (
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
@@ -172,7 +174,8 @@ export function MyRequestsTable({ requests, onDeleteClick }: MyRequestsTableProp
                                                 </button>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem asChild>
-                                                <button type="button" className="cursor-pointer">
+                                                <button onClick={() => setUpdateModal(req)}
+                                                    type="button" className="cursor-pointer">
                                                     <Pencil className="w-4 h-4" />
                                                     Edit
                                                 </button>
@@ -197,6 +200,12 @@ export function MyRequestsTable({ requests, onDeleteClick }: MyRequestsTableProp
                 open={!!selectedRequest}
                 onOpenChange={(open) => !open && setSelectedRequest(null)}
                 request={selectedRequest}
+            />
+
+            <UpdateRequestModal
+                open={!!UpdateModal}
+                onOpenChange={(open) => !open && setUpdateModal(null)}
+                request={UpdateModal}
             />
         </div>
     );

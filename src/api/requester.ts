@@ -6,31 +6,6 @@ export type BloodRequesterList = {
   meta: PageMeta;
 };
 
-const prefix = '/api/v1/user'
-
-export async function fetchBloodRequesters(
-  rawPage = 1,
-  rawLimit = 3,
-): Promise<BloodRequesterList> {
-  const res = await apiClient<ApiEnvelope<BloodRequesterList>>(
-    `${prefix}/requester`,
-    {
-      query: { rawPage, rawLimit },
-    },
-  );
-  return res.data;
-}
-
-export type BloodRequestPayload = {
-  patientName: string;
-  blood_group: string;
-  unit_required: number;
-  exact_location: string;
-  expires_at: string;
-  urgency: string;
-  note?: string;
-}
-
 export type BloodRequestResponse = {
   id: string;
   patientName: string;
@@ -47,6 +22,47 @@ export type BloodRequestResponse = {
   updated_at: string;
 };
 
+export type BloodRequestPayload = {
+  patientName: string;
+  blood_group: string;
+  unit_required: number;
+  exact_location: string;
+  expires_at: string;
+  urgency: string;
+  note?: string;
+}
+
+export type UpdateBloodRequestPayload = {
+  patientName?: string;
+  blood_group?: string;
+  unit_required?: number;
+  exact_location?: string;
+  expires_at?: string;
+  urgency?: string;
+  note?: string;
+  request_status?: string;
+}
+
+export type UpdateBloodRequestVariable = {
+  id: string;
+  payload: UpdateBloodRequestPayload
+}
+
+const prefix = '/api/v1/user'
+
+export async function fetchBloodRequesters(
+  rawPage = 1,
+  rawLimit = 3,
+): Promise<BloodRequesterList> {
+  const res = await apiClient<ApiEnvelope<BloodRequesterList>>(
+    `${prefix}/requester`,
+    {
+      query: { rawPage, rawLimit },
+    },
+  );
+  return res.data;
+}
+
 export const postBloodRequest = async (payload: BloodRequestPayload) => {
   const res = await apiClient<ApiEnvelope<BloodRequestResponse>>(`${prefix}/blood-request`, {
     method: 'POST',
@@ -60,4 +76,14 @@ export const fetchMyBloodRequest = async (rawPage = 1, rawLimit = 10) => {
     query: { rawPage, rawLimit }
   });
   return res.data
+}
+
+export const updateMyBloodRequest = async (variables: UpdateBloodRequestVariable) => {
+  const { id, payload } = variables
+
+  const res = await apiClient<ApiEnvelope<BloodRequestResponse>>(`${prefix}/update-my-request/${id}`, {
+    method: "PATCH",
+    body: payload
+  });
+  return res.data;
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { RequesterProp } from "@/components/RequesterCard";
+import type { RequesterProp } from "@/components/RequesterCard";
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
