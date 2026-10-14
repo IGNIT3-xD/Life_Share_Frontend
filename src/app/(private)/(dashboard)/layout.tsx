@@ -1,39 +1,51 @@
-"use client"
+"use client";
 
 import { useMe } from "@/hooks/useAuth";
 import { DashboardSidebar } from "./_components/DashboardSidebar";
+import { MobileSidebar } from "./_components/MobileSidebar";
 import { DashboardSkeleton } from "./_components/DashboarsSkleton";
 import { DashboardProvider } from "@/contexts/DashboardContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const { data, isPending, error } = useMe()
+    const { data, isPending, error } = useMe();
+    const router = useRouter();
 
-    if (isPending) {
-        return <DashboardSkeleton />
-    }
+    // ✅ Redirect in an effect, not during render
+    useEffect(() => {
+        if (error || (!isPending && !data)) {
+            router.replace("/login");
+        }
+    }, [error, isPending, data, router]);
 
-    if (error || !data) {
-        return (
-            <div className="flex min-h-screen items-center justify-center bg-[#F8F9FA] font-graphik">
-                <div className="text-center p-8 bg-white rounded-3xl shadow-sm border border-slate-100">
-                    <h2 className="text-xl font-bold text-slate-900 mb-2">Access Denied</h2>
-                    <p className="text-sm text-slate-500">Please log in to view your dashboard.</p>
-                </div>
-            </div>
-        );
-    }
+    if (isPending) return <DashboardSkeleton />;
+    if (!data) return null;
 
     return (
         <DashboardProvider user={data}>
-            <div className="flex min-h-screen bg-[#F8F9FA] font-graphik overflow-hidden">
+            <div className="flex min-h-screen bg-[#F8F9FA] font-graphik">
+                {/* ---- Desktop Sidebar (lg and up) ---- */}
                 <DashboardSidebar role={data.role} />
 
-                <div className="flex-1 ml-24 p-6 md:p-8 overflow-y-auto">
-                    {children}
+                {/* ---- Main Content ---- */}
+                <div className="flex-1 flex flex-col min-w-0">
+                    {/* ---- Mobile Top Bar (below lg) ---- */}
+                    <header className="lg:hidden sticky top-0 z-40 flex items-center gap-3 bg-[#F8F9FA]/95 backdrop-blur-sm border-b border-slate-200 px-4 py-3">
+                        <MobileSidebar role={data.role} />
+                        <h2 className="text-sm font-semibold text-slate-900">
+                            Life Share
+                        </h2>
+                    </header>
+
+                    {/* ---- Content ---- */}
+                    <main className="flex-1 p-4 sm:p-6 lg:ml-24 lg:p-8">
+                        {children}
+                    </main>
                 </div>
             </div>
         </DashboardProvider>

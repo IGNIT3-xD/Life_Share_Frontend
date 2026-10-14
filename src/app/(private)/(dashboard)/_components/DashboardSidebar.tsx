@@ -8,11 +8,10 @@ import { dashboardNavConfig } from "@/constants/dashboard-nav";
 
 export function DashboardSidebar({ role }: { role: string }) {
     const pathname = usePathname();
-    const navItems = dashboardNavConfig[role];
+    const navItems = dashboardNavConfig[role] ?? [];
 
     return (
-        <aside className="fixed left-4 top-4 bottom-4 w-16 bg-white rounded-[2rem] shadow-sm border border-slate-100 flex flex-col items-center py-6 z-50">
-            {/* Logo (Optional, can be removed if you have a top header) */}
+        <aside className="hidden lg:flex fixed left-4 top-4 bottom-4 w-16 bg-white rounded-[2rem] shadow-sm border border-slate-100 flex-col items-center py-6 z-50">
             <div className="w-10 h-10 bg-[#1E8E62] rounded-xl flex items-center justify-center text-white shadow-md mb-8">
                 <LayoutGrid className="w-5 h-5" />
             </div>
