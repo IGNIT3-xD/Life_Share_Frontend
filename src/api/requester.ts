@@ -71,9 +71,30 @@ export const postBloodRequest = async (payload: BloodRequestPayload) => {
   return res.data
 }
 
-export const fetchMyBloodRequest = async (rawPage = 1, rawLimit = 10) => {
+export type RequesterFilters = {
+  search?: string;
+  urgency?: string;
+  blood_group?: string;
+  verificationStatus?: string;
+  sortBy?: 'asc' | 'desc';
+  rawPage?: number;
+  rawLimit?: number;
+}
+
+export const fetchMyBloodRequest = async (filters: RequesterFilters = {}) => {
+  const { search, urgency, blood_group, verificationStatus, sortBy = 'desc', rawPage = 1, rawLimit = 10 } = filters
+
+  const query: Record<string, string | number> = {
+    rawPage, rawLimit, sortBy
+  }
+
+  if (search) query.search = search
+  if (urgency) query.urgency = urgency
+  if (blood_group) query.blood_group = blood_group
+  if (verificationStatus) query.verificationStatus = verificationStatus
+
   const res = await apiClient<ApiEnvelope<BloodRequesterList>>(`${prefix}/my-blood-request`, {
-    query: { rawPage, rawLimit }
+    query
   });
   return res.data
 }

@@ -1,4 +1,4 @@
-import { type BloodRequestPayload, fetchBloodRequesters, fetchMyBloodRequest, postBloodRequest, type UpdateBloodRequestVariable, updateMyBloodRequest } from "@/api/requester";
+import { type BloodRequestPayload, fetchBloodRequesters, fetchMyBloodRequest, postBloodRequest, type RequesterFilters, type UpdateBloodRequestVariable, updateMyBloodRequest } from "@/api/requester";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -22,10 +22,11 @@ export const usePostBloodRequest = () => {
   })
 }
 
-export const useMyBloodRequest = (rawPage = 1, rawLimit = 10) => {
+export const useMyBloodRequest = (filters: RequesterFilters = {}) => {
   return useQuery({
-    queryKey: ['my_blood_request', rawPage, rawLimit],
-    queryFn: () => fetchMyBloodRequest(rawPage, rawLimit)
+    queryKey: ['my_blood_request', JSON.stringify(filters)],
+    queryFn: () => fetchMyBloodRequest(filters),
+    placeholderData: (prev) => prev,
   })
 }
 
