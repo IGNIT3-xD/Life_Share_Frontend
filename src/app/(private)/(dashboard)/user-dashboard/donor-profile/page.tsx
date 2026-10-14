@@ -5,6 +5,8 @@ import { Heart, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMyDonorProfile } from "@/hooks/useDonors";
 import { DonorProfileView } from "./_components/DonorProfileView";
+import { DeleteDonorDialog } from "./_components/DeleteDonorDialog";
+import { DonorProfileFormModal } from "./_components/DonorProfileFormModal";
 
 export default function DonorProfilePage() {
     const { data: profile, isPending, error, refetch } = useMyDonorProfile();
@@ -75,14 +77,13 @@ export default function DonorProfilePage() {
                 />
             )}
 
-            {/* Modals */}
-            {/* <DonorProfileFormModal
+            <DonorProfileFormModal
                 open={formOpen}
                 onOpenChange={setFormOpen}
                 profile={profile}
             />
 
-            <DeleteDonorDialog open={deleteOpen} onOpenChange={setDeleteOpen} /> */}
+            <DeleteDonorDialog open={deleteOpen} onOpenChange={setDeleteOpen} profileId={profile?.id ?? null} />
         </div>
     );
 }

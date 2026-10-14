@@ -104,3 +104,18 @@ export const fetchMyDonorProfile = async () => {
     throw error;
   }
 }
+
+export const deleteMyDonorProfile = async (id: string) => {
+  const res = await apiClient(`${prefix}/donor-profile/${id}`, {
+    method: "DELETE"
+  });
+  return res.data;
+};
+
+export const updateMyDonorProfile = async (payload: Partial<DonorProfileCreatePayload>) => {
+  const res = await apiClient<ApiEnvelope<DonorProfileResponse>>(
+    `${prefix}/donor-profile`,
+    { method: "PATCH", body: payload }
+  );
+  return res.data;
+};
