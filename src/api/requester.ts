@@ -108,3 +108,10 @@ export const updateMyBloodRequest = async (variables: UpdateBloodRequestVariable
   });
   return res.data;
 }
+
+export const deleteMyBloodRequest = async (id: string) => {
+  const res = await apiClient<ApiEnvelope<BloodRequestResponse>>(`${prefix}/delete-my-request/${id}`, {
+    method: "DELETE",
+  });
+  return res.data;
+}

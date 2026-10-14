@@ -12,6 +12,7 @@ import type { RequesterProp } from "@/components/RequesterCard";
 import { useState } from "react";
 import { ViewDetailsModal } from "./ViewDetailsModal";
 import { UpdateRequestModal } from "./UpdateRequestModal";
+import { DeleteRequestDialog } from "./DeleteRequestDialog";
 
 // ---- Helpers ----
 const formatBloodGroup = (group: string) =>
@@ -52,12 +53,12 @@ const capitalize = (s: string) =>
 // ---- Component ----
 type Props = {
     requests: RequesterProp[];
-    onDeleteClick: (id: string) => void;
 };
 
-export function MyRequestsTable({ requests, onDeleteClick }: Props) {
+export function MyRequestsTable({ requests }: Props) {
     const [selectedRequest, setSelectedRequest] = useState<RequesterProp | null>(null);
     const [updateRequest, setUpdateRequest] = useState<RequesterProp | null>(null);
+    const [deleteRequest, setDeleteRequest] = useState<RequesterProp | null>(null);
 
     return (
         <>
@@ -163,7 +164,7 @@ export function MyRequestsTable({ requests, onDeleteClick }: Props) {
                                                     </button>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
-                                                    onClick={() => onDeleteClick(req.id)}
+                                                    onClick={() => setDeleteRequest(req)}
                                                     className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
@@ -189,6 +190,13 @@ export function MyRequestsTable({ requests, onDeleteClick }: Props) {
                 open={!!updateRequest}
                 onOpenChange={(open) => !open && setUpdateRequest(null)}
                 request={updateRequest}
+            />
+
+            <DeleteRequestDialog
+                open={!!deleteRequest}
+                onOpenChange={(open) => !open && setDeleteRequest(null)}
+                requestId={deleteRequest?.id ?? null}
+                patientName={deleteRequest?.patientName}
             />
         </>
     );

@@ -127,7 +127,6 @@ export default function MyBloodRequestsPage() {
                 <div className={isFetching ? "opacity-60 transition-opacity" : "opacity-100"}>
                     <MyRequestsTable
                         requests={requests}
-                        onDeleteClick={(id) => console.log("Delete:", id)}
                     />
                 </div>
             )}
