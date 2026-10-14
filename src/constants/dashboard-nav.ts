@@ -10,7 +10,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
     USER: [
         { name: "Overview", href: "/user-dashboard", icon: LayoutGrid },
         { name: "My Blood Requests", href: "/user-dashboard/my-blood-request", icon: FileText },
-        { name: "Profile", href: "/user-dashboard/profile", icon: Users },
+        { name: "Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
     ],
     DONOR: [
         { name: "Overview", href: "/donor-dashboard", icon: LayoutGrid },
