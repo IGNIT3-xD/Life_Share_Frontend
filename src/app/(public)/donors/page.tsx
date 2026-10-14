@@ -8,6 +8,7 @@ import { BLOOD_GROUPS, AVAILABILITY_OPTIONS, SORT_OPTIONS } from "@/constants/do
 import { SearchInput } from "@/components/SearchInput";
 import { FilterSelect } from "@/components/FilterSelect";
 import { Button } from "@/components/ui/button";
+import { PaginationControls } from "@/components/PaginationControls";
 
 const CardSkeleton = () => (
   <div className="mx-auto w-full max-w-sm animate-pulse rounded-3xl border border-gray-200 bg-white p-6">
@@ -212,44 +213,12 @@ const AllDonors = () => {
         </div>
       )}
 
-      {/* Pagination */}
-      {meta && meta.totalPages > 1 && (
-        <div className="mt-12 flex items-center justify-center gap-2">
-          <button
-            type="button"
-            disabled={page === 1}
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className="h-10 px-5 rounded-full border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-          >
-            Previous
-          </button>
-          <div className="flex items-center gap-1">
-            {Array.from({ length: meta.totalPages }).map((_, i) => {
-              const pageNum = i + 1;
-              return (
-                <button
-                  type="button"
-                  key={pageNum}
-                  onClick={() => setPage(pageNum)}
-                  className={`w-10 h-10 rounded-full text-sm font-semibold transition-colors ${page === pageNum
-                    ? "bg-red-600 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
-                    }`}
-                >
-                  {pageNum}
-                </button>
-              );
-            })}
-          </div>
-          <button
-            type="button"
-            disabled={page === meta.totalPages}
-            onClick={() => setPage((p) => Math.min(meta.totalPages, p + 1))}
-            className="h-10 px-5 rounded-full border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-          >
-            Next
-          </button>
-        </div>
+      {meta && (
+        <PaginationControls
+          currentPage={page}
+          totalPages={meta.totalPages}
+          onPageChange={setPage}
+        />
       )}
     </section>
   );

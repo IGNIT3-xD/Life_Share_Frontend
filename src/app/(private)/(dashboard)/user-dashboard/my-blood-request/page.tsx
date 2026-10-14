@@ -6,7 +6,8 @@ import { useMyBloodRequest } from "@/hooks/useRequester";
 import { MyRequestsTable } from "../_components/MyRequestsTable";
 import { PostRequestModal } from "../_components/PostRequestModal";
 import { useState } from "react";
-import { MyRequestsFilters, TableFilters } from "../_components/MyRequestFilters";
+import { MyRequestsFilters, type TableFilters } from "../_components/MyRequestFilters";
+import { PaginationControls } from "@/components/PaginationControls";
 
 const INITIAL_FILTERS: TableFilters = {
     search: "",
@@ -129,6 +130,15 @@ export default function MyBloodRequestsPage() {
                         requests={requests}
                     />
                 </div>
+            )}
+
+            {/*  Pagination */}
+            {meta && (
+                <PaginationControls
+                    currentPage={page}
+                    totalPages={meta.totalPages}
+                    onPageChange={setPage}
+                />
             )}
         </div>
     );
