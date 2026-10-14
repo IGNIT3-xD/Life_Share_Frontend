@@ -35,15 +35,12 @@ export default function DashboardLayout({
                 {/* ---- Main Content ---- */}
                 <div className="flex-1 flex flex-col min-w-0">
                     {/* ---- Mobile Top Bar (below lg) ---- */}
-                    <header className="lg:hidden sticky top-0 z-40 flex items-center gap-3 bg-[#F8F9FA]/95 backdrop-blur-sm border-b border-slate-200 px-4 py-3">
+                    <header className="lg:hidden sticky top-16 z-40 flex items-center gap-3 bg-[#F8F9FA]/95 backdrop-blur-sm border-b border-slate-200 px-4 py-3">
                         <MobileSidebar role={data.role} />
-                        <h2 className="text-sm font-semibold text-slate-900">
-                            Life Share
-                        </h2>
                     </header>
 
                     {/* ---- Content ---- */}
-                    <main className="flex-1 p-4 sm:p-6 lg:ml-24 lg:p-8">
+                    <main className="flex-1 p-4 sm:p-6 lg:ml-24">
                         {children}
                     </main>
                 </div>

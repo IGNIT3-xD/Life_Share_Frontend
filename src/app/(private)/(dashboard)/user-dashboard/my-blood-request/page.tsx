@@ -22,7 +22,6 @@ export default function MyBloodRequestsPage() {
     const [page, setPage] = useState(1);
     const limit = 10;
 
-    // ✅ Send EVERY filter to the API, not just search/blood/urgency
     const { data, isPending, isFetching, error, refetch } = useMyBloodRequest({
         search: filter.search || undefined,
         blood_group: filter.blood_group || undefined,
@@ -54,7 +53,7 @@ export default function MyBloodRequestsPage() {
         filter.sortBy !== "desc";
 
     return (
-        <div className="space-y-6 pt-16">
+        <div className="space-y-6 pt-16 max-w-7xl">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
