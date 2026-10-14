@@ -50,6 +50,38 @@ export type DonorProfileResponse = {
   };
 }
 
+export type DonorDetailsResponse = {
+  id: string;
+  email: string;
+  blood_group: string;
+  location: string;
+  age: number;
+  availability: string;
+  weightKg: string;
+  height: string;
+  donorStatus: string;
+  totalDonations: number;
+  lastDonationDate: string;
+  created_at: string;
+  updated_at: string;
+  userId: string;
+  user: {
+    name: string;
+    gender: string;
+    phone: string;
+    profile_pic: string;
+  };
+};
+
+export type DonorProfileCreatePayload = {
+  age: number,
+  blood_group: string,
+  location: string,
+  height: number,
+  weightKg: number,
+  availability: string
+}
+
 const prefix = "/api/v1/donor";
 
 export async function fetchDonors(rawPage = 1, rawLimit = 3): Promise<DonorList> {
@@ -73,15 +105,6 @@ export const fetchAllDOnors = async (filters: DonorFilters = {}) => {
 
   const res = await apiClient<ApiEnvelope<DonorList>>(`${prefix}`, { query });
   return res.data;
-}
-
-export type DonorProfileCreatePayload = {
-  age: number,
-  blood_group: string,
-  location: string,
-  height: number,
-  weightKg: number,
-  availability: string
 }
 
 export const createDonorProfile = async (payload: DonorProfileCreatePayload) => {
@@ -119,3 +142,8 @@ export const updateMyDonorProfile = async (payload: Partial<DonorProfileCreatePa
   );
   return res.data;
 };
+
+export const fetchDonorDetails = async (id: string) => {
+  const res = await apiClient<ApiEnvelope<DonorDetailsResponse>>(`${prefix}/donor-profile/${id}`);
+  return res.data
+}

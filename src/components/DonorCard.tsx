@@ -77,7 +77,7 @@ export function DonorCard({ data }: { data: DonorProps }) {
   return (
     <div className="relative w-full max-w-sm mx-auto font-graphik transition-all duration-300">
       <Link
-        href={"/"}
+        href={`donors/${data.id}`}
         className="relative flex flex-col bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:border hover:border-[#b15b3672] hover:shadow-md transition-all duration-300"
       >
         <div className="absolute inset-0 bg-linear-to-br from-black/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />

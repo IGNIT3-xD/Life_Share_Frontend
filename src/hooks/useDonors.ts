@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createDonorProfile, deleteMyDonorProfile, type DonorFilters, type DonorProfileCreatePayload, fetchAllDOnors, fetchDonors, fetchMyDonorProfile, updateMyDonorProfile } from "@/api/donors";
+import { createDonorProfile, deleteMyDonorProfile, type DonorFilters, type DonorProfileCreatePayload, fetchAllDOnors, fetchDonorDetails, fetchDonors, fetchMyDonorProfile, updateMyDonorProfile } from "@/api/donors";
 
 export function useDonors(rawPage = 1, rawLimit = 3) {
   return useQuery({
@@ -55,3 +55,12 @@ export const useUpdateDonorProfile = () => {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["my_donor_profile"] }),
   });
 };
+
+export const useDonorDetails = (id: string) => {
+  return useQuery({
+    queryKey: ['donor_details', id],
+    queryFn: () => fetchDonorDetails(id),
+    enabled: !!id,                             // ← Skip if no id
+    staleTime: 1000 * 60 * 2,
+  })
+}
