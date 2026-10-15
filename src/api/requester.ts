@@ -22,6 +22,15 @@ export type BloodRequestResponse = {
   updated_at: string;
 };
 
+export type BloodRequestersFilter = {
+  urgency?: string;
+  search?: string;
+  blood_group?: string;
+  sortBy?: "asc" | "desc";
+  rawPage?: number;
+  rawLimit?: number;
+}
+
 export type BloodRequestPayload = {
   patientName: string;
   blood_group: string;
@@ -60,6 +69,25 @@ export async function fetchBloodRequesters(
       query: { rawPage, rawLimit },
     },
   );
+  return res.data;
+}
+
+export async function fetchAllBloodRequesters(filters: BloodRequestersFilter): Promise<BloodRequesterList> {
+  const { search, blood_group, urgency, sortBy = 'desc', rawPage = 1, rawLimit = 9 } = filters
+
+  const query: Record<string, string | number> = {
+    rawPage,
+    rawLimit,
+    sortBy
+  }
+
+  if (search) query.search = search
+  if (urgency) query.urgency = urgency
+  if (blood_group) query.blood_group = blood_group
+
+  const res = await apiClient<ApiEnvelope<BloodRequesterList>>(`${prefix}/requester`, {
+    query
+  });
   return res.data;
 }
 

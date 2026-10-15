@@ -189,11 +189,9 @@ export function RequesterCard({ data }: { data: RequesterProp }) {
 
         {/* Footer Actions */}
         <div className="flex justify-end mt-auto pt-2">
-          <Button asChild className="btn-main bg-[#B15A36]">
-            <Link href={`/requester/${id}`}>
-              <Heart className="w-4 h-4" fill="currentColor" />
-              Donate Now!
-            </Link>
+          <Button className="btn-main bg-[#B15A36]">
+            <Heart className="w-4 h-4" fill="currentColor" />
+            Donate Now!
           </Button>
         </div>
       </div>

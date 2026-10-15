@@ -114,7 +114,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Find Donors", href: "/donors" },
-    { name: "Donate Blood", href: "/donate-blood" },
+    { name: "Blood Requesters", href: "/blood-requesters" },
     { name: "Emergency Services", href: "/emergency-services" },
     { name: "About", href: "/about" },
   ];
