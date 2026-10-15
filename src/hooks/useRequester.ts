@@ -1,4 +1,4 @@
-import { BloodRequestersFilter, type BloodRequestPayload, deleteMyBloodRequest, fetchAllBloodRequesters, fetchBloodRequesters, fetchMyBloodRequest, postBloodRequest, type RequesterFilters, type UpdateBloodRequestVariable, updateMyBloodRequest } from "@/api/requester";
+import { type BloodRequestersFilter, type BloodRequestPayload, createDonationRequest, type CreateDonationRequestPayload, deleteMyBloodRequest, fetchAllBloodRequesters, fetchBloodRequesters, fetchMyBloodRequest, postBloodRequest, type RequesterFilters, type UpdateBloodRequestVariable, updateMyBloodRequest } from "@/api/requester";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -60,6 +60,17 @@ export const useDeleteBloodRequest = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blood_requester"] });
       queryClient.invalidateQueries({ queryKey: ["my_blood_request"] });
+    }
+  })
+}
+
+export const useCreateDonationRequest = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload: CreateDonationRequestPayload) => createDonationRequest(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['my_donation_request'] })
     }
   })
 }

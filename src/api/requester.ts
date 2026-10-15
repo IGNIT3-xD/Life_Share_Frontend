@@ -57,6 +57,12 @@ export type UpdateBloodRequestVariable = {
   payload: UpdateBloodRequestPayload
 }
 
+export type CreateDonationRequestPayload = {
+  requester_id: string;
+  donor_id: string;
+  scheduled_at: string;
+}
+
 const prefix = '/api/v1/user'
 
 export async function fetchBloodRequesters(
@@ -142,4 +148,12 @@ export const deleteMyBloodRequest = async (id: string) => {
     method: "DELETE",
   });
   return res.data;
+}
+
+export const createDonationRequest = async (payload: CreateDonationRequestPayload) => {
+  const res = await apiClient('/api/v1/donation/request', {
+    method: 'POST',
+    body: payload
+  });
+  return res.data
 }

@@ -186,14 +186,6 @@ export function RequesterCard({ data }: { data: RequesterProp }) {
             </span>
           )}
         </div>
-
-        {/* Footer Actions */}
-        <div className="flex justify-end mt-auto pt-2">
-          <Button className="btn-main bg-[#B15A36]">
-            <Heart className="w-4 h-4" fill="currentColor" />
-            Donate Now!
-          </Button>
-        </div>
       </div>
     </div>
   );

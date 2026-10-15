@@ -1,11 +1,12 @@
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Loader2, UserX } from "lucide-react";
 import { useDonorDetails } from "@/hooks/useDonors";
 import { DonorDetailsView } from "../_components/DonorDetailsView";
+import { CreateDonationRequestModal } from "../_components/CreateDonationRequestModal";
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -14,6 +15,9 @@ type PageProps = {
 export default function DonorDetailsPage({ params }: PageProps) {
     const { id } = use(params);
     const { data: donor, isPending, error, refetch } = useDonorDetails(id);
+
+    // Modal state for sending a donation request
+    const [requestModalOpen, setRequestModalOpen] = useState(false);
 
     return (
         <div className="bg-[#F8F9FA] font-graphik">
@@ -57,8 +61,22 @@ export default function DonorDetailsPage({ params }: PageProps) {
                     </div>
                 )}
 
-                {/* Donor View */}
-                {donor && <DonorDetailsView donor={donor} />}
+                {/* Donor View + Modal */}
+                {donor && (
+                    <>
+                        <DonorDetailsView
+                            donor={donor}
+                            onRequestDonation={() => setRequestModalOpen(true)}
+                        />
+
+                        <CreateDonationRequestModal
+                            open={requestModalOpen}
+                            onOpenChange={setRequestModalOpen}
+                            donorId={donor.id}
+                            donorName={donor.user.name}
+                        />
+                    </>
+                )}
             </div>
         </div>
     );
