@@ -10,7 +10,7 @@ import { FilterSelect } from "@/components/FilterSelect";
 import { Button } from "@/components/ui/button";
 import { PaginationControls } from "@/components/PaginationControls";
 
-const CardSkeleton = () => (
+export const CardSkeleton = () => (
   <div className="mx-auto w-full max-w-sm animate-pulse rounded-3xl border border-gray-200 bg-white p-6">
     <div className="mb-6 flex items-start justify-between">
       <div className="flex items-center gap-4">
@@ -75,7 +75,7 @@ const AllDonors = () => {
   };
 
   return (
-    <section className="container-main py-30 font-graphik">
+    <section className="container-main pt-24 pb-10 font-graphik">
       {/* Header */}
       <div className="text-center mb-10">
         <h1 className="text-primary">

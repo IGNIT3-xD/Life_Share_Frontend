@@ -69,7 +69,7 @@ const page = () => {
     };
 
     return (
-        <section className="container-main py-30 font-graphik">
+        <section className="container-main pt-24 pb-10 font-graphik">
             {/* Header */}
             <div className="text-center mb-10">
                 <h1 className="text-primary">
