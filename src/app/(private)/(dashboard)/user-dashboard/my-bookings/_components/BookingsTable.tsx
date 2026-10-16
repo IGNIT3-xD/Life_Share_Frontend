@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import type { EmergencyServiceBookingProp } from "@/api/booking";
+import { PayNowButton } from "../../../_components/PayNowButton";
 
 // ---- Helpers ----
 const formatDateTime = (d: string | null) => {
@@ -21,8 +22,10 @@ const formatDateTime = (d: string | null) => {
     });
 };
 
-const formatPrice = (amount: number) =>
-    `৳${Number(amount).toLocaleString("en-BD")}`;
+const formatPrice = (amount: number | string) => {
+    const n = Number(amount);
+    return Number.isNaN(n) ? "—" : `৳${n.toLocaleString("en-BD")}`;
+};
 
 const capitalize = (s: string) =>
     s?.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()) || "—";
@@ -45,7 +48,6 @@ const paymentStatusStyles: Record<string, string> = {
     CANCELLED: "bg-slate-100 text-slate-600 border-slate-200",
 };
 
-// Statuses that cannot be cancelled or edited
 const LOCKED_STATUSES = ["CANCELLED", "COMPLETED", "FAILED"];
 
 type Props = {
@@ -134,74 +136,75 @@ export function BookingsTable({
                                     </TableCell>
 
                                     <TableCell className="text-right pr-6">
-                                        <DropdownMenu modal={false}>
-                                            <DropdownMenuTrigger asChild>
-                                                <button
-                                                    type="button"
-                                                    className="p-2 rounded-lg text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors"
-                                                    aria-label="Actions"
-                                                >
-                                                    <MoreHorizontal className="w-4 h-4" />
-                                                </button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end" className="w-48 font-graphik">
-                                                <DropdownMenuItem asChild>
-                                                    <button
-                                                        onClick={() => onViewDetails(b)}
-                                                        type="button"
-                                                        className="cursor-pointer"
-                                                    >
-                                                        <Eye className="w-4 h-4" />
-                                                        Details
-                                                    </button>
-                                                </DropdownMenuItem>
+                                        <div className="flex items-center justify-end gap-2">
+                                            <PayNowButton booking={b} />
 
-                                                <DropdownMenuItem
-                                                    asChild
-                                                    disabled={isLocked}
-                                                >
+                                            <DropdownMenu modal={false}>
+                                                <DropdownMenuTrigger asChild>
                                                     <button
-                                                        onClick={() => !isLocked && onEdit(b)}
                                                         type="button"
-                                                        className={cn(
-                                                            "w-full",
-                                                            isLocked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-                                                        )}
+                                                        className="p-2 rounded-lg text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                                                        aria-label="Actions"
+                                                    >
+                                                        <MoreHorizontal className="w-4 h-4" />
+                                                    </button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end" className="w-48 font-graphik">
+                                                    <DropdownMenuItem asChild>
+                                                        <button
+                                                            onClick={() => onViewDetails(b)}
+                                                            type="button"
+                                                            className="cursor-pointer"
+                                                        >
+                                                            <Eye className="w-4 h-4" />
+                                                            Details
+                                                        </button>
+                                                    </DropdownMenuItem>
+
+                                                    <DropdownMenuItem asChild disabled={isLocked}>
+                                                        <button
+                                                            onClick={() => !isLocked && onEdit(b)}
+                                                            type="button"
+                                                            className={cn(
+                                                                "w-full",
+                                                                isLocked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                                                            )}
+                                                            disabled={isLocked}
+                                                        >
+                                                            <Pencil className="w-4 h-4" />
+                                                            Edit
+                                                        </button>
+                                                    </DropdownMenuItem>
+
+                                                    <DropdownMenuItem
+                                                        asChild
                                                         disabled={isLocked}
+                                                        className="text-amber-600 focus:text-amber-700 focus:bg-amber-50"
                                                     >
-                                                        <Pencil className="w-4 h-4" />
-                                                        Edit
-                                                    </button>
-                                                </DropdownMenuItem>
+                                                        <button
+                                                            onClick={() => !isLocked && onCancel(b)}
+                                                            type="button"
+                                                            className={cn(
+                                                                "w-full",
+                                                                isLocked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                                                            )}
+                                                            disabled={isLocked}
+                                                        >
+                                                            <XCircle className="w-4 h-4" />
+                                                            Cancel Booking
+                                                        </button>
+                                                    </DropdownMenuItem>
 
-                                                <DropdownMenuItem
-                                                    asChild
-                                                    disabled={isLocked}
-                                                    className="text-amber-600 focus:text-amber-700 focus:bg-amber-50"
-                                                >
-                                                    <button
-                                                        onClick={() => !isLocked && onCancel(b)}
-                                                        type="button"
-                                                        className={cn(
-                                                            "w-full",
-                                                            isLocked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-                                                        )}
-                                                        disabled={isLocked}
+                                                    <DropdownMenuItem
+                                                        onClick={() => onDelete(b)}
+                                                        className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
                                                     >
-                                                        <XCircle className="w-4 h-4" />
-                                                        Cancel Booking
-                                                    </button>
-                                                </DropdownMenuItem>
-
-                                                <DropdownMenuItem
-                                                    onClick={() => onDelete(b)}
-                                                    className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                    Delete Booking
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                                        <Trash2 className="w-4 h-4" />
+                                                        Delete Booking
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             );
