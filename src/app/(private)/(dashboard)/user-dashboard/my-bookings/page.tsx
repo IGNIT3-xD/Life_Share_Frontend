@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarCheck, Loader2 } from "lucide-react";
+import { CalendarCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFetchAllBookings } from "@/hooks/useBooking";
 import {
@@ -12,6 +12,7 @@ import { BookingsTable } from "./_components/BookingsTable";
 import { EditBookingModal } from "./_components/EditBookingModal";
 import { PaginationControls } from "@/components/PaginationControls";
 import type { EmergencyServiceBookingProp } from "@/api/booking";
+import { BookingDetailsModal } from "./_components/BookingDetailsModal";
 
 const INITIAL_FILTERS: BookingTableFilters = {
     search: "",
@@ -148,17 +149,18 @@ export default function MyBookingsPage() {
             )}
 
             {/* Modals */}
-            {/* <BookingDetailsModal
+            <BookingDetailsModal
                 open={!!viewBooking}
                 onOpenChange={(o) => !o && setViewBooking(null)}
-                booking={viewBooking}
-            /> */}
+                bookingId={viewBooking?.id ?? null}
+            />
 
             <EditBookingModal
                 open={!!editBooking}
                 onOpenChange={(o) => !o && setEditBooking(null)}
                 booking={editBooking}
             />
+
             {/* <CancelBookingDialog
                 open={!!cancelBooking}
                 onOpenChange={(o) => !o && setCancelBooking(null)}

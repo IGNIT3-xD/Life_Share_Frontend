@@ -78,9 +78,8 @@ export function MyDonationsTable({ donations, onViewDetails }: Props) {
                     </TableHeader>
                     <TableBody>
                         {donations.map((d) => {
-                            const donorInitial =
-                                d.donor.email?.charAt(0).toUpperCase() || "?";
-
+                            const donorInitial = d.donor.email?.charAt(0).toUpperCase() || "?";
+                            
                             return (
                                 <TableRow
                                     key={d.id}

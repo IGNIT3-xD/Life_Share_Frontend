@@ -1,4 +1,4 @@
-import { type BookingVariable, createBooking, fetchMyBookings, ServiceFilters, UpdateBookingPayload, updateMyBooking } from "@/api/booking";
+import { type BookingVariable, createBooking, fetchMyBookings, myBookingDetails, type ServiceFilters, type UpdateBookingPayload, updateMyBooking } from "@/api/booking";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateBooking() {
@@ -11,7 +11,7 @@ export function useCreateBooking() {
             queryClient.invalidateQueries({ queryKey: ["my_bookings"] });
         }
     })
-}
+};
 
 export function useFetchAllBookings(filter: ServiceFilters = {}) {
     return useQuery({
@@ -19,13 +19,22 @@ export function useFetchAllBookings(filter: ServiceFilters = {}) {
         queryFn: () => fetchMyBookings(filter),
         placeholderData: (prev) => prev
     })
-}
+};
 
 export function useUpdateBooking() {
     const qc = useQueryClient();
-    
+
     return useMutation({
         mutationFn: ({ id, payload }: { id: string; payload: UpdateBookingPayload }) => updateMyBooking(id, payload),
         onSuccess: () => qc.invalidateQueries({ queryKey: ["my_bookings"] }),
     });
-}
+};
+
+export function useBookingDetails(id: string | null) {
+    return useQuery({
+        queryKey: ["my_booking_details", id],
+        queryFn: () => myBookingDetails(id!),
+        enabled: !!id,
+        staleTime: 60_000,
+    });
+};
