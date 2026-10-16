@@ -13,6 +13,7 @@ import { EditBookingModal } from "./_components/EditBookingModal";
 import { PaginationControls } from "@/components/PaginationControls";
 import type { EmergencyServiceBookingProp } from "@/api/booking";
 import { BookingDetailsModal } from "./_components/BookingDetailsModal";
+import { CancelBookingDialog, DeleteBookingDialog } from "./_components/BookingActionDialogs";
 
 const INITIAL_FILTERS: BookingTableFilters = {
     search: "",
@@ -161,16 +162,17 @@ export default function MyBookingsPage() {
                 booking={editBooking}
             />
 
-            {/* <CancelBookingDialog
+            <CancelBookingDialog
                 open={!!cancelBooking}
                 onOpenChange={(o) => !o && setCancelBooking(null)}
                 booking={cancelBooking}
             />
+
             <DeleteBookingDialog
                 open={!!deleteBooking}
                 onOpenChange={(o) => !o && setDeleteBooking(null)}
                 booking={deleteBooking}
-            /> */}
+            />
         </div>
     );
 }

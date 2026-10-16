@@ -142,3 +142,16 @@ export async function myBookingDetails(id: string) {
     return res.data
 };
 
+export async function cancelMyBooking(id: string) {
+    const res = await apiClient(`${prefix}/cancel-booking-request/${id}`, {
+        method: 'PUT'
+    });
+    return res.data
+};
+
+export async function deleteMyBooking(id: string) {
+    const res = await apiClient(`${prefix}/delete-booking-request/${id}`, {
+        method: 'DELETE'
+    });
+    return res.data
+};

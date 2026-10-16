@@ -1,4 +1,4 @@
-import { type BookingVariable, createBooking, fetchMyBookings, myBookingDetails, type ServiceFilters, type UpdateBookingPayload, updateMyBooking } from "@/api/booking";
+import { type BookingVariable, cancelMyBooking, createBooking, deleteMyBooking, fetchMyBookings, myBookingDetails, type ServiceFilters, type UpdateBookingPayload, updateMyBooking } from "@/api/booking";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateBooking() {
@@ -38,3 +38,27 @@ export function useBookingDetails(id: string | null) {
         staleTime: 60_000,
     });
 };
+
+export function useCancelBooking() {
+    const qc = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) => cancelMyBooking(id),
+        onSuccess: () => {
+            qc.invalidateQueries({ queryKey: ["my_bookings"] });
+            qc.invalidateQueries({ queryKey: ["my_booking_details"] });
+        }
+    })
+}
+
+export function useDeleteBooking() {
+    const qc = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) => deleteMyBooking(id),
+        onSuccess: () => {
+            qc.invalidateQueries({ queryKey: ["my_bookings"] });
+            qc.invalidateQueries({ queryKey: ["my_booking_details"] });
+        }
+    })
+}
