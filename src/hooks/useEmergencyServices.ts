@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllEmergencyServices, fetchEmergencyServices, ServiceFilter } from "@/api/emergencyServices";
+import { fetchAllEmergencyServices, fetchEmergencyServiceDetails, fetchEmergencyServices, type ServiceFilter } from "@/api/emergencyServices";
 
 export function useEmergencyServices(rawPage = 1, rawLimit = 3) {
   return useQuery({
@@ -14,4 +14,11 @@ export function useAllEmergencyServices(filters: ServiceFilter = {}) {
     queryFn: () => fetchAllEmergencyServices(filters),
     placeholderData: (prev) => prev
   });
+}
+
+export function useEmergencyServiceDetails(id: string) {
+  return useQuery({
+    queryKey: ['emergency-service-details', id],
+    queryFn: () => fetchEmergencyServiceDetails(id)
+  })
 }

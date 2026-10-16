@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import {
-    Droplet,
     LayoutDashboard,
     RotateCcw,
     Ambulance,
@@ -19,7 +18,7 @@ import {
     SERVICE_SORT_OPTIONS,
 } from "@/constants/emergency_service";
 import { CardSkeleton } from "../donors/page";
-import { ServiceFilter } from "@/api/emergencyServices";
+import type { ServiceFilter } from "@/api/emergencyServices";
 
 // ---- Helpers ----
 

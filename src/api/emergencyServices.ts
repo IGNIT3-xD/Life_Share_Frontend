@@ -6,6 +6,32 @@ export type EmergencyServiceList = {
   meta: PageMeta;
 };
 
+export type ServiceDetailsResponse = {
+  id: string;
+  service_name: string;
+  service_category: string;
+  service_status: string;
+  description: string;
+  price: string;
+  service_image: string;
+  service_image_public_id: string;
+  availability: string;
+  hospital_id: string;
+  created_at: string;
+  updated_at: string;
+  hospital: {
+    license_number: string;
+    description: string;
+    hospital_status: string;
+    user: {
+      name: string;
+      email: string;
+      address: string;
+      phone: string;
+    };
+  };
+};
+
 export type ServiceFilter = {
   search?: string;
   service_status?: string;
@@ -16,12 +42,14 @@ export type ServiceFilter = {
   rawLimit?: number;
 }
 
+const prefix = "/api/v1/emergency-service"
+
 export async function fetchEmergencyServices(
   rawPage = 1,
   rawLimit = 3,
 ): Promise<EmergencyServiceList> {
   const res = await apiClient<ApiEnvelope<EmergencyServiceList>>(
-    "/api/v1/emergency-service",
+    `${prefix}`,
     { query: { rawPage, rawLimit } },
   );
   return res.data;
@@ -44,8 +72,13 @@ export async function fetchAllEmergencyServices(filters: ServiceFilter = {}): Pr
   if (service_category) query.service_category = service_category
   if (service_status) query.service_status = service_status
 
-  const res = await apiClient<ApiEnvelope<EmergencyServiceList>>("/api/v1/emergency-service", {
+  const res = await apiClient<ApiEnvelope<EmergencyServiceList>>(`${prefix}`, {
     query
   });
   return res.data;
+}
+
+export async function fetchEmergencyServiceDetails(id: string) {
+  const res = await apiClient<ApiEnvelope<ServiceDetailsResponse>>(`${prefix}/${id}`);
+  return res.data
 }
