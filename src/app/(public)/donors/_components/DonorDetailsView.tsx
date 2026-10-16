@@ -92,8 +92,8 @@ export function DonorDetailsView({
                         </div>
 
                         <div className="flex-1 min-w-0 pb-1">
-                            <div className="flex flex-wrap items-center gap-2 mb-1">
-                                <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight truncate">
+                            <div className="flex flex-wrap items-center gap-2 mt-16">
+                                <h1 className="z-10 text-2xl md:text-3xl font-bold text-slate-900 tracking-tight truncate">
                                     {user.name}
                                 </h1>
                                 {isVerified && (
@@ -101,7 +101,7 @@ export function DonorDetailsView({
                                 )}
                             </div>
 
-                            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+                            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 mt-2">
                                 <span className="inline-flex items-center gap-1.5">
                                     <User className="w-3.5 h-3.5" />
                                     {formatString(user.gender)}

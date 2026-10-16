@@ -96,7 +96,7 @@ export function MyDonationsTable({ donations, onViewDetails }: Props) {
                                             </div>
                                             <div className="flex flex-col min-w-0">
                                                 <span className="font-semibold text-slate-900 text-sm truncate max-w-35">
-                                                    {d.donor.email.split("@")[0]}
+                                                    {d.donor.email}
                                                 </span>
                                                 <span className="text-xs text-slate-400">
                                                     {d.donor.location}

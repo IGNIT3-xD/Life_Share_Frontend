@@ -21,7 +21,7 @@ export default function DonorDetailsPage({ params }: PageProps) {
 
     return (
         <div className="bg-[#F8F9FA] font-graphik">
-            <div className="container-main py-30 max-w-7xl">
+            <div className="container-main pt-24 pb-10">
                 {/* Back Link */}
                 <Link
                     href="/donors"

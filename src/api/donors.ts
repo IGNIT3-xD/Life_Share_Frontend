@@ -80,7 +80,7 @@ export type DonorProfileCreatePayload = {
   height: number,
   weightKg: number,
   availability: string
-}
+};
 
 const prefix = "/api/v1/donor";
 

@@ -58,8 +58,7 @@ export type DonationFilter = {
     sortBy?: "asc" | "desc";
     rawPage?: number;
     rawLimit?: number;
-
-}
+};
 
 const prefix = "/api/v1/donation"
 

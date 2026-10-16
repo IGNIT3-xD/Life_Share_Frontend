@@ -6,6 +6,7 @@ import { ArrowLeft, Loader2, PackageOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEmergencyServiceDetails } from "@/hooks/useEmergencyServices";
 import { ServiceDetailsView } from "../_components/ServiceDetailsView";
+import { BookServiceModal } from "../_components/BookServiceModal";
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -13,8 +14,7 @@ type PageProps = {
 
 export default function EmergencyServiceDetailsPage({ params }: PageProps) {
     const { id } = use(params);
-    const { data: service, isPending, error, refetch } =
-        useEmergencyServiceDetails(id);
+    const { data: service, isPending, error, refetch } = useEmergencyServiceDetails(id);
 
     const [bookingOpen, setBookingOpen] = useState(false);
 
@@ -68,13 +68,13 @@ export default function EmergencyServiceDetailsPage({ params }: PageProps) {
                             onBookNow={() => setBookingOpen(true)}
                         />
 
-                        {/* <BookServiceModal
+                        <BookServiceModal
                             open={bookingOpen}
                             onOpenChange={setBookingOpen}
                             serviceId={service.id}
                             serviceName={service.service_name}
                             price={service.price}
-                        /> */}
+                        />
                     </>
                 )}
             </div>
