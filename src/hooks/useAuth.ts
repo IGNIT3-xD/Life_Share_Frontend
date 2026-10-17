@@ -1,5 +1,22 @@
-import { fetchLogin, fetchMe } from "@/api/auth"
+import { fetchLogin, fetchMe, fetchRegister, fetchVerifyEmail, type RegisterPayload } from "@/api/auth"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+
+export const useRegister = () => {
+    return useMutation({
+        mutationFn: ({ payload, file }: { payload: RegisterPayload; file?: File }) =>
+            fetchRegister(payload, file),
+    });
+};
+
+export const useVerifyEmail = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: fetchVerifyEmail,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["user_profile"] });
+        },
+    });
+};
 
 export const useAuth = () => {
     const queryClient = useQueryClient();
@@ -11,7 +28,7 @@ export const useAuth = () => {
             // You need to tell React Query to throw away the old cache and fetch fresh data after a successful login.
         }
     })
-}
+};
 
 export const useMe = () => {
     return useQuery({

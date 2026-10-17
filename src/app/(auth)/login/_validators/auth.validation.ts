@@ -1,65 +1,54 @@
 import z from "zod";
 
-const Gender = {
-    MALE: "Male",
-    FEMALE: "Female",
-    OTHER: "Other",
+export const Gender = {
+    MALE: "MALE",
+    FEMALE: "FEMALE",
+    OTHERS: "OTHERS",
 } as const;
 
-const Role = {
-    ADMIN: "Admin",
-    SUPER_ADMIN: "Super Admin",
-    DONOR: "Donor",
-    USER: "User",
-    HOSPITAL: "Hospital",
-} as const
+export const Role = {
+    USER: "USER",
+    DONOR: "DONOR",
+    HOSPITAL: "HOSPITAL",
+} as const;
 
-export const registerUserValidation = z
+export const registerSchema = z
     .object({
         name: z
-            .string("Name must be characters")
-            .min(2, "Name must be at least 2 characters long.")
+            .string()
+            .min(2, "Name must be at least 2 characters")
             .max(255, "Name is too long"),
-        email: z.email("Enter an email."),
+        email: z.email("Enter a valid email address"),
         password: z
             .string()
-            .min(6, "Password must be at least 6 characters long.")
+            .min(6, "Password must be at least 6 characters")
             .max(20, "Password is too long")
-            .regex(/[a-z]/, "Password must contain at least 1 lower case letter.")
-            .regex(/[A-Z]/, "Password must contain at least 1 upper case letter.")
-            .regex(/[0-9]/, "Password must contain at least 1 number.")
-            .regex(
-                /[^A-Za-z0-9\s]/,
-                "Password must contain at least 1 special character.",
-            ),
-        phone: z
-            .string()
-            .min(11, "Phone no. must be 11 numbers")
-            .max(14, "Phone no. is too long")
-            .optional(),
-        address: z.string().optional(),
-        gender: z.enum(Gender, "Gender must be Male, Female or Others"),
-        role: z
-            .enum(Role, "Role must be User, Donor or Hospital.")
-            .optional()
-            .default(Role.USER),
+            .regex(/[a-z]/, "Must contain a lowercase letter")
+            .regex(/[A-Z]/, "Must contain an uppercase letter")
+            .regex(/[0-9]/, "Must contain a number")
+            .regex(/[^A-Za-z0-9\s]/, "Must contain a special character"),
+        gender: z.enum([Gender.MALE, Gender.FEMALE, Gender.OTHERS], {
+            message: "Please select a gender",
+        }),
+        role: z.enum([Role.USER, Role.DONOR, Role.HOSPITAL], {
+            message: "Please select a valid role",
+        }),
+        phone: z.string(),
+        address: z.string(),
     })
     .superRefine((data, ctx) => {
         if (data.role === Role.HOSPITAL) {
             if (!data.phone || data.phone.trim() === "") {
                 ctx.addIssue({
                     code: "custom",
-                    message:
-                        "Phone number is strictly required for Hospital registration profiles.",
+                    message: "Phone number is required for hospital profiles",
                     path: ["phone"],
                 });
             }
-
             if (!data.address || data.address.trim() === "") {
                 ctx.addIssue({
                     code: "custom",
-                    message:
-                        "Physical address is strictly required for Hospital registration profiles.",
+                    message: "Physical address is required for hospital profiles",
                     path: ["address"],
                 });
             }
