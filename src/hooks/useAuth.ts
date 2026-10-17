@@ -1,4 +1,4 @@
-import { fetchLogin, fetchMe, fetchRegister, fetchVerifyEmail, type RegisterPayload } from "@/api/auth"
+import { fetchForgetPassword, fetchLogin, fetchMe, fetchRegister, fetchResetPassword, fetchVerifyEmail, type RegisterPayload } from "@/api/auth"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useRegister = () => {
@@ -15,6 +15,18 @@ export const useVerifyEmail = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["user_profile"] });
         },
+    });
+};
+
+export const useForgetPassword = () => {
+    return useMutation({
+        mutationFn: (email: string) => fetchForgetPassword(email),
+    });
+};
+
+export const useResetPassword = () => {
+    return useMutation({
+        mutationFn: fetchResetPassword,
     });
 };
 

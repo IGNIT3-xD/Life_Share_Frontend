@@ -63,6 +63,28 @@ export const fetchLogin = async (payload: { email: string, password: string }) =
     return res.data
 }
 
+export async function fetchForgetPassword(email: string) {
+    const res = await apiClient<ApiEnvelope<RegisterResponse>>(`${prefix}/forget-password`, {
+        method: "POST",
+        body: { email },
+    });
+    return res.data;
+}
+
+export type ResetPasswordPayload = {
+    email: string;
+    otp: string;
+    newPassword: string;
+};
+
+export async function fetchResetPassword(payload: ResetPasswordPayload) {
+    const res = await apiClient<ApiEnvelope<RegisterResponse>>(`${prefix}/reset-password`, {
+        method: "POST",
+        body: payload,
+    });
+    return res.data;
+}
+
 export type MeUser = {
     id: string;
     name: string;

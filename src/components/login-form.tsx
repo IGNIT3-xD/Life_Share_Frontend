@@ -132,7 +132,7 @@ export function LoginForm({
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       aria-invalid={field.state.meta.errors.length > 0}
-                      placeholder="*****"
+                      placeholder="******"
                     />
                     {field.state.meta.errors.length > 0 && (
                       <p className="text-xs text-red-500 mt-1">
