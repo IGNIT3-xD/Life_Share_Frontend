@@ -16,7 +16,7 @@ export default function DashboardLayout({
     const { data, isPending, error } = useMe();
     const router = useRouter();
 
-    // ✅ Redirect in an effect, not during render
+    // Redirect in an effect, not during render
     useEffect(() => {
         if (error || (!isPending && !data)) {
             router.replace("/login");

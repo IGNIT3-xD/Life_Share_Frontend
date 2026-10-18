@@ -14,6 +14,13 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
         { name: "Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
     ],
+    HOSPITAL: [
+        { name: "Overview", href: "/hospital-dashboard", icon: LayoutGrid },
+        { name: "Hospital Profile", href: "/hospital-dashboard/hospital-profile", icon: Users },
+        { name: "My Blood Requests", href: "/user-dashboard/my-blood-request", icon: FileText },
+        { name: "My Donation Requests", href: "/user-dashboard/my-donation-requests", icon: FileSearchCorner },
+        { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
+    ],
     DONOR: [
         { name: "Overview", href: "/donor-dashboard", icon: LayoutGrid },
         { name: "My Donations", href: "/donor-dashboard/donations", icon: HeartPulse },

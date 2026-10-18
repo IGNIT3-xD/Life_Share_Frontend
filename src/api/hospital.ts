@@ -1,0 +1,78 @@
+import { apiClient, ApiEnvelope } from "./client";
+
+const prefix = "/api/v1/hospital"
+
+export type CreateProfilePayload = {
+    license_number: string;
+    description: string;
+}
+
+export type UpdateProfilePayload = {
+    hospital_name?: string;
+    hospital_address?: string;
+    hospital_phone?: string;
+    license_number?: string;
+    description?: string;
+}
+
+export type HospitalProfileResponse = {
+    id: string;
+    license_number: string;
+    description: string;
+    hospital_status: string;
+    created_at: string;
+    updated_at: string;
+    user_id: string;
+    user: {
+        name: string;
+        email: string;
+        address: string;
+        phone?: string;
+        email_verified?: string;
+    };
+}
+
+export async function createHospitalProfile(payload: CreateProfilePayload) {
+    const res = await apiClient<ApiEnvelope<HospitalProfileResponse>>(`${prefix}/create-hospital-profile`, {
+        method: "POST",
+        body: payload
+    });
+    return res.data
+};
+
+export async function fetchMyHospitalProfile() {
+    try {
+        const res = await apiClient<ApiEnvelope<HospitalProfileResponse>>(
+            `${prefix}/my-hospital-profile`
+        );
+        return res.data;
+    } catch (error: any) {
+        // If the backend returns a 404, it means the profile doesn't exist yet.
+        // We return null so the UI can show the "Create Profile" state instead of an error.
+        if (
+            error?.response?.status === 404 ||
+            error?.status === 404 ||
+            error?.statusCode === 404
+        ) {
+            return null;
+        }
+
+        // For any other error (e.g., 500 Server Error, Network failure), we still throw
+        throw error;
+    }
+}
+
+export async function editHospitalProfile(payload: UpdateProfilePayload) {
+    const res = await apiClient<ApiEnvelope<HospitalProfileResponse>>(`${prefix}/update-hospital-profile`, {
+        method: "PATCH",
+        body: payload
+    });
+    return res.data
+};
+
+export async function deleteHospitalProfile(id: string) {
+    const res = await apiClient<ApiEnvelope<{ success: boolean }>>(`${prefix}/hospital-profile/${id}`, {
+        method: "DELETE",
+    });
+    return res.data
+};
