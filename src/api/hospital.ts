@@ -1,4 +1,4 @@
-import { apiClient, ApiEnvelope } from "./client";
+import { apiClient, type ApiEnvelope } from "./client";
 
 const prefix = "/api/v1/hospital"
 

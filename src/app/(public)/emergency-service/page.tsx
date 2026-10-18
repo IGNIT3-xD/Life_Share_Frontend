@@ -45,7 +45,7 @@ export default function EmergencyServicesPage() {
     const [serviceCategory, setServiceCategory] = useState("");
     const [sort, setSort] = useState(DEFAULT_SORT);
     const [page, setPage] = useState(1);
-    const limit = 9;
+    const limit = 6;
 
     const sortParams = mapSort(sort);
 
