@@ -18,7 +18,7 @@ export function HospitalProfileView({ profile, onEdit, onDelete }: Props) {
         <div className="space-y-6">
             {/* Header Card */}
             <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-                <div className="h-24 bg-linear-to-br from-blue-600 to-indigo-700 relative">
+                <div className="h-24 bg-linear-to-br from-emerald-500/10 to-emerald-600/10 relative">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_50%)]" />
                 </div>
 
@@ -26,7 +26,7 @@ export function HospitalProfileView({ profile, onEdit, onDelete }: Props) {
                     <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-6 -mt-12 mb-6">
                         <div className="relative w-24 h-24 rounded-2xl p-1 bg-white shadow-md shrink-0">
                             <div className="w-full h-full rounded-xl bg-blue-100 flex items-center justify-center">
-                                <Building2 className="w-10 h-10 text-blue-600" />
+                                <Building2 className="w-10 h-10 text-emerald-600" />
                             </div>
                             {isVerified && (
                                 <div className="absolute -bottom-2 -right-2 bg-emerald-500 rounded-full p-1.5 border-2 border-white">
@@ -40,7 +40,6 @@ export function HospitalProfileView({ profile, onEdit, onDelete }: Props) {
                                 <h2 className="text-2xl font-bold text-slate-900 truncate mt-10 pt-5">
                                     {profile.user.name}
                                 </h2>
-                                {isVerified && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
                             </div>
 
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 mt-2">

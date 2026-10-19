@@ -31,7 +31,17 @@ import { useRouter } from "next/navigation";
 const getInitial = (name?: string | null) =>
   name?.trim()?.charAt(0).toUpperCase() || "?";
 
-// Slightly smaller avatar for the compact layout
+// Helper to get the correct dashboard URL based on role
+const getDashboardUrl = (role?: string) => {
+  switch (role) {
+    case "ADMIN": return "/admin-dashboard";
+    case "HOSPITAL": return "/hospital-dashboard";
+    case "DONOR": return "/donor-dashboard";
+    case "USER":
+    default: return "/user-dashboard";
+  }
+};
+
 function Avatar({ user, size = 32 }: { user: MeUser; size?: number }) {
   return (
     <span
@@ -54,8 +64,10 @@ function Avatar({ user, size = 32 }: { user: MeUser; size?: number }) {
 }
 
 function UserMenu({ user }: { user: MeUser }) {
-  const { mutateAsync: logout, isPending } = useLogout()
-  const router = useRouter()
+  const { mutateAsync: logout, isPending } = useLogout();
+  const router = useRouter();
+
+  const dashboardUrl = getDashboardUrl(user.role);
 
   const handleLogout = () => {
     logout(undefined, {
@@ -114,14 +126,14 @@ function UserMenu({ user }: { user: MeUser }) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/profile">
+          <Link href={"/profile"}>
             <UserRound />
             Profile
           </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">
+          <Link href={dashboardUrl}>
             <LayoutDashboard />
             Dashboard
           </Link>
@@ -149,7 +161,6 @@ function UserMenu({ user }: { user: MeUser }) {
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // Destructure isPending from useMe
   const { data: me, isPending } = useMe();
 
   const navLinks = [
@@ -159,10 +170,10 @@ export default function Navbar() {
     { name: "About", href: "/about" },
   ];
 
+  const mobileDashboardUrl = getDashboardUrl(me?.role);
+
   return (
-    // Reduced top/inset padding for a tighter fit
     <header className="fixed top-3 inset-x-3 md:inset-x-6 lg:inset-x-10 max-w-7xl mx-auto z-50 font-graphik">
-      {/* Reduced inner padding, changed to rounded-full for a pill shape */}
       <nav className="relative flex items-center justify-between px-4 py-3 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl text-white shadow-2xl transition-all duration-300">
 
         {/* Left: Logo */}
@@ -199,7 +210,6 @@ export default function Navbar() {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-3">
-          {/* SKELETON LOADER for Auth State */}
           {isPending ? (
             <div className="hidden md:block h-8 w-20 animate-pulse rounded-full bg-white/20" />
           ) : me ? (
@@ -213,7 +223,6 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Hide Donate button while pending to prevent layout shift, or keep it static */}
           {!isPending && (
             <Button size={'sm'} className="hidden md:flex btn-main bg-[#B15A36] text-sm">
               Donate Now
@@ -243,7 +252,6 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              // Changed rounded-3xl to rounded-2xl, adjusted padding
               className="absolute top-full left-0 right-0 mt-2 p-5 bg-black/95 backdrop-blur-2xl border border-white/10 rounded-2xl flex flex-col gap-2 lg:hidden shadow-2xl origin-top"
             >
               {navLinks.map((link) => (
@@ -281,14 +289,15 @@ export default function Navbar() {
               {!isPending && me ? (
                 <>
                   <Link
-                    href="/dashboard"
+                    href={mobileDashboardUrl}
                     className="text-white/80 hover:text-white py-2.5 text-base border-b border-white/5 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Dashboard
                   </Link>
+
                   <Link
-                    href="/profile"
+                    href={'/profile'}
                     className="text-white/80 hover:text-white py-2.5 text-base border-b border-white/5 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >

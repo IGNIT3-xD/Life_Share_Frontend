@@ -1,4 +1,4 @@
-import { fetchForgetPassword, fetchLogin, fetchMe, fetchRegister, fetchResetPassword, fetchVerifyEmail, logout, type RegisterPayload } from "@/api/auth"
+import { fetchForgetPassword, fetchLogin, fetchMe, fetchRegister, fetchResetPassword, fetchVerifyEmail, logout, updateMyProfile, UpdateProfilePayload, type RegisterPayload } from "@/api/auth"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useRegister = () => {
@@ -50,6 +50,18 @@ export const useMe = () => {
         staleTime: 1000 * 60 * 5,
     })
 }
+
+export const useUpdateProfile = () => {
+    const qc = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ payload, file }: { payload: UpdateProfilePayload, file?: File }) =>
+            updateMyProfile(payload, file),
+        onSuccess: () => {
+            qc.invalidateQueries({ queryKey: ["user_profile"] })
+        },
+    });
+};
 
 export const useLogout = () => {
     const qc = useQueryClient();

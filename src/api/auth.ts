@@ -107,6 +107,33 @@ export async function fetchMe(): Promise<MeUser> {
     return res.data;
 }
 
+export type UpdateProfilePayload = {
+    name?: string;
+    phone?: string;
+    address?: string;
+    gender?: string;
+}
+
+export const updateMyProfile = async (payload: UpdateProfilePayload, profilePic?: File) => {
+    const formData = new FormData
+
+    Object.entries(payload).forEach(([key, value]) => {
+        if (value !== undefined)
+            formData.append(key, value)
+    })
+
+    if (profilePic) {
+        formData.append("profile_pic", profilePic);
+    }
+
+    const res = await apiClient<ApiEnvelope<MeUser>>("api/v1/user/update-profile", {
+        method: "PATCH",
+        body: formData
+    });
+    
+    return res.data;
+}
+
 export const logout = async () => {
     const res = await apiClient<ApiEnvelope<{ success: boolean }>>("/api/v1/auth/logout", {
         method: "POST",
