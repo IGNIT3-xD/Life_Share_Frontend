@@ -97,7 +97,7 @@ export type BookingService = {
 
 export type BookingDetailsResponse = EmergencyServiceBookingProp & {
     emergencyService: BookingService;
-    hospital: BookingHospital;
+    hospital?: BookingHospital;
     user: BookingUser;
 };
 
@@ -152,6 +152,41 @@ export async function cancelMyBooking(id: string) {
 export async function deleteMyBooking(id: string) {
     const res = await apiClient(`${prefix}/delete-booking-request/${id}`, {
         method: 'DELETE'
+    });
+    return res.data
+};
+
+export async function fetchMyBookingRequest(filters: ServiceFilters = {}) {
+    const { search, booking_status, payment_via, payment_status, sortBy = 'desc', page = 1, limit = 10 } = filters
+
+    const query: Record<string, string | number> = {
+        sortBy, page, limit
+    }
+
+    if (search) query.search = search
+    if (booking_status) query.booking_status = booking_status
+    if (payment_status) query.payment_status = payment_status
+    if (payment_via) query.payment_via = payment_via
+
+    const res = await apiClient<ApiEnvelope<fetchBookingsResponse>>(`${prefix}/recevied-booking-request`, {
+        query
+    });
+    return res.data
+};
+
+export async function fetchBookingRequestDetails(id: string) {
+    const res = await apiClient<ApiEnvelope<BookingDetailsResponse>>(`${prefix}/booking-request/${id}`);
+    return res.data
+};
+
+export type UpdateBookingStatusPayload = {
+    booking_status: "ACCEPTED" | "CANCELLED" | "COMPLETED";
+};
+
+export async function updateBookingRequest(id: string, payload: UpdateBookingStatusPayload) {
+    const res = await apiClient(`${prefix}/booking-request/${id}`, {
+        method: "PUT",
+        body: payload
     });
     return res.data
 };
