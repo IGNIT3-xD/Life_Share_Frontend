@@ -17,8 +17,6 @@ const BOOKING_SORT_OPTIONS = [
     { value: "asc", label: "Oldest First" },
 ] as const;
 
-// Reusing the details modal from the user dashboard
-import { BookingDetailsModal } from "../../user-dashboard/my-bookings/_components/BookingDetailsModal";
 import { HospitalBookingDetailsModal } from "./_components/HospitalBookingDetailsModal";
 
 const LIMIT = 10;

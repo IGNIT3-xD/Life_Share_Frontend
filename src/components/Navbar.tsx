@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  DoorOpen,
   HeartPulse,
   LayoutDashboard,
+  Loader2,
   Menu,
   ShieldCheck,
   UserRound,
@@ -22,7 +24,9 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import type { MeUser } from "@/api/auth";
-import { useMe } from "@/hooks/useAuth";
+import { useLogout, useMe } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const getInitial = (name?: string | null) =>
   name?.trim()?.charAt(0).toUpperCase() || "?";
@@ -50,6 +54,26 @@ function Avatar({ user, size = 32 }: { user: MeUser; size?: number }) {
 }
 
 function UserMenu({ user }: { user: MeUser }) {
+  const { mutateAsync: logout, isPending } = useLogout()
+  const router = useRouter()
+
+  const handleLogout = () => {
+    logout(undefined, {
+      onSuccess: () => {
+        toast.success("Logged out successfully");
+        router.replace("/login");
+        router.refresh();
+      },
+      onError: (error) => {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : "Failed to log out. Please try again."
+        );
+      },
+    });
+  };
+
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -102,6 +126,22 @@ function UserMenu({ user }: { user: MeUser }) {
             Dashboard
           </Link>
         </DropdownMenuItem>
+
+        <DropdownMenuItem
+          disabled={isPending}
+          onSelect={(event) => {
+            event.preventDefault();
+            handleLogout();
+          }}
+          className="cursor-pointer text-destructive focus:text-destructive"
+        >
+          {isPending ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            <DoorOpen />
+          )}
+          {isPending ? "Logging out..." : "Log out"}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -145,7 +185,6 @@ export default function Navbar() {
         </Link>
 
         {/* Middle: Desktop Navigation Links */}
-        {/* Reduced gap and font size slightly */}
         <div className="hidden lg:flex items-center gap-6 text-sm font-normal text-white/80">
           {navLinks.map((link) => (
             <Link

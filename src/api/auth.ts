@@ -106,3 +106,11 @@ export async function fetchMe(): Promise<MeUser> {
     const res = await apiClient<ApiEnvelope<MeUser>>("/api/v1/user/me");
     return res.data;
 }
+
+export const logout = async () => {
+    const res = await apiClient<ApiEnvelope<{ success: boolean }>>("/api/v1/auth/logout", {
+        method: "POST",
+        body: {}
+    });
+    return res.data
+}
