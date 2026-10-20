@@ -24,6 +24,7 @@ export type BloodRequestResponse = {
 
 export type BloodRequestersFilter = {
   urgency?: string;
+  verificationStatus?: string;
   search?: string;
   blood_group?: string;
   sortBy?: "asc" | "desc";
@@ -62,6 +63,39 @@ export type CreateDonationRequestPayload = {
   donor_id: string;
   scheduled_at: string;
 }
+
+export type BloodRequestDetails = {
+  id: string;
+  patientName: string;
+  blood_group: string;
+  unit_required: number;
+  exact_location: string;
+  expires_at: string;
+  urgency: string;
+  verificationStatus: "PENDING" | "VERIFIED" | "REJECTED";
+  request_status: "PENDING" | "COMPLETED" | "CANCELLED" | "IN_PROGRESS";
+  note: string | null;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    address?: string;
+    gender: "MALE" | "FEMALE" | "OTHER";
+    profile_pic: string | null;
+    profile_pic_public_id: string | null;
+    role: string;
+    auth_provider: string;
+    email_verified: boolean;
+    is_active: boolean;
+    is_blocked: boolean;
+    created_at: string;
+    updated_at: string;
+  };
+};
 
 const prefix = '/api/v1/user'
 
@@ -155,5 +189,48 @@ export const createDonationRequest = async (payload: CreateDonationRequestPayloa
     method: 'POST',
     body: payload
   });
+  return res.data
+}
+
+// Admin controlled
+export async function fetchAllBloodRequestersAdmin(filters: BloodRequestersFilter): Promise<BloodRequesterList> {
+  const { search, verificationStatus, blood_group, urgency, sortBy = 'desc', rawPage = 1, rawLimit = 9 } = filters
+
+  const query: Record<string, string | number> = {
+    rawPage,
+    rawLimit,
+    sortBy
+  }
+
+  if (search) query.search = search
+  if (urgency) query.urgency = urgency
+  if (blood_group) query.blood_group = blood_group
+  if (verificationStatus) query.verificationStatus = verificationStatus
+
+  const res = await apiClient<ApiEnvelope<BloodRequesterList>>("/api/v1/user/all-requesters", { query });
+  return res.data;
+}
+
+export const fetchRequesterDetails = async (id: string) => {
+  const res = await apiClient<ApiEnvelope<BloodRequestDetails>>(`${prefix}/request/${id}`)
+  return res.data
+}
+
+export type UpdateStatusPayload = {
+  verificationStatus: "PENDING" | "VERIFIED" | "REJECTED"
+}
+
+export const updateRequesterStatus = async (id: string, payload: UpdateStatusPayload) => {
+  const res = await apiClient<ApiEnvelope<BloodRequestDetails>>(`${prefix}/requester/${id}`, {
+    method: "PUT",
+    body: payload
+  })
+  return res.data
+}
+
+export const deleteRequesterRequest = async (id: string) => {
+  const res = await apiClient<ApiEnvelope<{ success: boolean }>>(`${prefix}/delete-my-request/${id}`, {
+    method: "DELETE"
+  })
   return res.data
 }

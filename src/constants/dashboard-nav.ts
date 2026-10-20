@@ -1,4 +1,4 @@
-import { LayoutGrid, Users, FileText, Settings, ShieldAlert, FileSearchCorner, BookCheck, Siren, ListChecks, ClipboardList, HeartPulse } from "lucide-react";
+import { LayoutGrid, Users, FileText, Settings, ShieldAlert, FileSearchCorner, BookCheck, Siren, ListChecks, ClipboardList, HeartPulse, UserGroup } from "lucide-react";
 
 export type NavItem = {
     name: string;
@@ -30,7 +30,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "Overview", href: "/admin-dashboard", icon: LayoutGrid },
         { name: "Manage Users", href: "/admin-dashboard/all-users", icon: Users },
         { name: "Manage Donors", href: "/admin-dashboard/all-donors", icon: HeartPulse },
-        { name: "Blood Requests", href: "/admin-dashboard/requests", icon: ShieldAlert },
+        { name: "Manage Blood Requests", href: "/admin-dashboard/all-requesters", icon: UserGroup },
         { name: "Settings", href: "/admin-dashboard/settings", icon: Settings },
     ],
 };

@@ -1,9 +1,7 @@
 "use client";
 
-import { MapPin, Clock, Heart, ShieldCheck } from "lucide-react";
+import { MapPin, Clock, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
-import Link from "next/link";
 
 export type RequesterProp = {
   id: string;
@@ -42,7 +40,6 @@ const formatDate = (dateString: string) => {
 
 export function RequesterCard({ data }: { data: RequesterProp }) {
   const {
-    id,
     patientName,
     blood_group,
     exact_location,
@@ -51,7 +48,6 @@ export function RequesterCard({ data }: { data: RequesterProp }) {
     unit_required,
     urgency,
     verificationStatus,
-    note,
   } = data;
 
   const formattedBloodGroup = formatBloodGroup(blood_group);

@@ -1,4 +1,4 @@
-import { type BloodRequestersFilter, type BloodRequestPayload, createDonationRequest, type CreateDonationRequestPayload, deleteMyBloodRequest, fetchAllBloodRequesters, fetchBloodRequesters, fetchMyBloodRequest, postBloodRequest, type RequesterFilters, type UpdateBloodRequestVariable, updateMyBloodRequest } from "@/api/requester";
+import { type BloodRequestersFilter, type BloodRequestPayload, createDonationRequest, type CreateDonationRequestPayload, deleteMyBloodRequest, deleteRequesterRequest, fetchAllBloodRequesters, fetchAllBloodRequestersAdmin, fetchBloodRequesters, fetchMyBloodRequest, fetchRequesterDetails, postBloodRequest, type RequesterFilters, type UpdateBloodRequestVariable, updateMyBloodRequest, updateRequesterStatus, type UpdateStatusPayload } from "@/api/requester";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -71,6 +71,48 @@ export const useCreateDonationRequest = () => {
     mutationFn: (payload: CreateDonationRequestPayload) => createDonationRequest(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['my_donation_request'] })
+    }
+  })
+}
+
+// Admin controlled
+export function useAllBloodRequesterAdmin(filters: BloodRequestersFilter) {
+  return useQuery({
+    queryKey: ["blood_requester_admin", JSON.stringify(filters)],
+    queryFn: () => fetchAllBloodRequestersAdmin(filters),
+    placeholderData: (prev) => prev
+  });
+}
+
+export function useAllBloodRequesterDetailsAdmin(id: string | null) {
+  return useQuery({
+    queryKey: ["blood_requester_admin", id],
+    queryFn: () => fetchRequesterDetails(id!),
+    enabled: !!id,
+  });
+}
+
+export const useUpdateBloodRequesterStatus = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: UpdateStatusPayload }) =>
+      updateRequesterStatus(id, payload),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blood_requester_admin"] });
+    }
+  })
+}
+
+export const useDeleteBloodRequesterRequest = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: string) => deleteRequesterRequest(id),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blood_requester_admin"] });
     }
   })
 }

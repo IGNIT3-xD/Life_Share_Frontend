@@ -167,13 +167,13 @@ export function BookingDetailsModal({ open, onOpenChange, bookingId }: Props) {
                                         <div className="flex items-center gap-1.5 mt-0.5">
                                             <ShieldCheck className="w-3 h-3 text-emerald-500" />
                                             <span className="text-[11px] font-semibold text-emerald-600 uppercase tracking-wide">
-                                                {capitalize(data.hospital.hospital_status)}
+                                                {capitalize(data?.hospital?.hospital_status || "--")}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
 
-                                {data.hospital.description && (
+                                {data?.hospital?.description && (
                                     <p className="text-xs text-slate-500 leading-relaxed mt-3">
                                         {data.hospital.description}
                                     </p>
@@ -189,10 +189,10 @@ export function BookingDetailsModal({ open, onOpenChange, bookingId }: Props) {
                                     {data.user.address && (
                                         <InfoLine icon={<MapPin className="w-3.5 h-3.5" />} value={data.user.address} />
                                     )}
-                                    {data.hospital.license_number && (
+                                    {data?.hospital?.license_number && (
                                         <InfoLine
                                             icon={<FileBadge className="w-3.5 h-3.5" />}
-                                            value={`License: ${data.hospital.license_number}`}
+                                            value={`License: ${data?.hospital?.license_number}`}
                                         />
                                     )}
                                 </div>
