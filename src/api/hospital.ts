@@ -1,4 +1,4 @@
-import { apiClient, type ApiEnvelope } from "./client";
+import { apiClient, PageMeta, type ApiEnvelope } from "./client";
 
 const prefix = "/api/v1/hospital"
 
@@ -30,6 +30,23 @@ export type HospitalProfileResponse = {
         phone?: string;
         email_verified?: string;
     };
+}
+
+type HospitalList = {
+    hospital: HospitalProfileResponse[],
+    meta: PageMeta
+}
+
+export type HospitalFilters = {
+    hospital_status?: string;
+    search?: string;
+    sortBy?: "asc" | "desc";
+    rawPage?: number;
+    rawLimit?: number;
+}
+
+export type UpdateHospitalProfileStatus = {
+    hospital_status: "VERIFIED" | "NOT_ELIGIBLE" | "IN_PROGRESS"
 }
 
 export async function createHospitalProfile(payload: CreateProfilePayload) {
@@ -73,6 +90,36 @@ export async function editHospitalProfile(payload: UpdateProfilePayload) {
 export async function deleteHospitalProfile(id: string) {
     const res = await apiClient<ApiEnvelope<{ success: boolean }>>(`${prefix}/hospital-profile/${id}`, {
         method: "DELETE",
+    });
+    return res.data
+};
+
+// Admin controlled
+export const fetchAllHospitalProfile = async (filters: HospitalFilters = {}) => {
+    const { search, hospital_status, sortBy = 'desc', rawPage = 1, rawLimit = 10 } = filters
+
+    const query: Record<string, string | number> = {
+        sortBy, rawPage, rawLimit
+    }
+
+    if (search) query.search = search
+    if (hospital_status) query.hospital_status = hospital_status
+
+    const res = await apiClient<ApiEnvelope<HospitalList>>("api/v1/hospital/all-hospital-profile", { query });
+    return res.data
+};
+
+export async function updateHospitalProfileStatus(id: string, payload: UpdateHospitalProfileStatus) {
+    const res = await apiClient<ApiEnvelope<HospitalProfileResponse>>(`${prefix}/hospital-profile/${id}`, {
+        method: "PUT",
+        body: payload
+    });
+    return res.data
+};
+
+export async function deleteHospitalProfileAdmin(id: string) {
+    const res = await apiClient<ApiEnvelope<{ success: boolean }>>(`${prefix}/hospital-profile/${id}`, {
+        method: "DELETE"
     });
     return res.data
 };

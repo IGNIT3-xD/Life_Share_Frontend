@@ -1,4 +1,4 @@
-import { createHospitalProfile, CreateProfilePayload, deleteHospitalProfile, editHospitalProfile, fetchMyHospitalProfile, UpdateProfilePayload } from "@/api/hospital";
+import { createHospitalProfile, CreateProfilePayload, deleteHospitalProfile, deleteHospitalProfileAdmin, editHospitalProfile, fetchAllHospitalProfile, fetchMyHospitalProfile, HospitalFilters, UpdateHospitalProfileStatus, updateHospitalProfileStatus, UpdateProfilePayload } from "@/api/hospital";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateHospitalProfile() {
@@ -40,3 +40,36 @@ export function useDeleteHospitalProfile() {
         }
     })
 }
+
+// Admin controlled
+export function useFetchAllHospitalProfile(filters: HospitalFilters = {}) {
+    return useQuery({
+        queryKey: ["all_hospital_profiles", JSON.stringify(filters)],
+        queryFn: () => fetchAllHospitalProfile(filters),
+        placeholderData: (prev) => prev
+    })
+};
+
+export function useUpdateHospitalProfileStatus() {
+    const qc = useQueryClient()
+
+    return useMutation({
+        mutationFn: ({ id, payload }: { id: string, payload: UpdateHospitalProfileStatus }) =>
+            updateHospitalProfileStatus(id, payload),
+        onSuccess: () => {
+            qc.invalidateQueries({ queryKey: ["all_hospital_profiles"] })
+        }
+    })
+};
+
+export function useDeleteHospitalProfileAdmin() {
+    const qc = useQueryClient()
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            deleteHospitalProfileAdmin(id),
+        onSuccess: () => {
+            qc.invalidateQueries({ queryKey: ["all_hospital_profiles"] })
+        }
+    })
+};
