@@ -1,4 +1,4 @@
-import { LayoutGrid, Users, FileText, FileSearchCorner, BookCheck, Siren, ListChecks, ClipboardList, HeartPulse, UserGroup, Hospital, Ambulance } from "lucide-react";
+import { LayoutGrid, Users, FileText, FileSearchCorner, BookCheck, Siren, ListChecks, ClipboardList, HeartPulse, UserGroup, Hospital, Ambulance, Wallet } from "lucide-react";
 
 export type NavItem = {
     name: string;
@@ -28,6 +28,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
     ],
     ADMIN: [
         { name: "Overview", href: "/admin-dashboard", icon: LayoutGrid },
+        { name: "All Payments", href: "/admin-dashboard/all-payments", icon: Wallet },
         { name: "Manage Users", href: "/admin-dashboard/all-users", icon: Users },
         { name: "Manage Donors", href: "/admin-dashboard/all-donors", icon: HeartPulse },
         { name: "Manage Blood Requests", href: "/admin-dashboard/all-requesters", icon: UserGroup },

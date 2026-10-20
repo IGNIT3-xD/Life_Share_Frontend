@@ -1,4 +1,4 @@
-import { apiClient, PageMeta, type ApiEnvelope } from "./client"
+import { apiClient, type PageMeta, type ApiEnvelope } from "./client"
 
 export type AuthUser = {
     token: {
