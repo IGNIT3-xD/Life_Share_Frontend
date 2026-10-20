@@ -1,4 +1,4 @@
-import { apiClient, type ApiEnvelope } from "./client"
+import { apiClient, PageMeta, type ApiEnvelope } from "./client"
 
 export type AuthUser = {
     token: {
@@ -114,6 +114,30 @@ export type UpdateProfilePayload = {
     gender?: string;
 }
 
+export type UserData = {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+    phone?: string;
+    address?: string;
+    gender: "MALE" | "FEMALE" | "OTHERS";
+    profile_pic: string | null;
+    profile_pic_public_id: string | null;
+    role: string;
+    auth_provider: string;
+    email_verified: boolean;
+    is_active: boolean;
+    is_blocked: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export type Userlist = {
+    user: UserData[];
+    meta: PageMeta
+}
+
 export const updateMyProfile = async (payload: UpdateProfilePayload, profilePic?: File) => {
     const formData = new FormData
 
@@ -130,7 +154,7 @@ export const updateMyProfile = async (payload: UpdateProfilePayload, profilePic?
         method: "PATCH",
         body: formData
     });
-    
+
     return res.data;
 }
 
@@ -141,3 +165,43 @@ export const logout = async () => {
     });
     return res.data
 }
+
+// Admin controlled
+export type UserFilters = {
+    search?: string;
+    role?: "ADMIN" | "SUPER_ADMIN" | "HOSPITAL" | "USER" | "DONOR";
+    gender?: "MALE" | "FEMALE" | "OTHERS";
+    is_active?: boolean;
+    sortBy?: "asc" | "desc";
+    rawPage?: number;
+    rawLimit?: number;
+}
+
+export const fetchAllUsersAdmin = async (filters: UserFilters) => {
+    const { search, gender, is_active, role, sortBy = 'desc', rawLimit = 10, rawPage = 1 } = filters
+
+    const query: Record<string, string | number | boolean> = {
+        sortBy, rawPage, rawLimit
+    }
+
+    if (search) query.search = search
+    if (gender) query.gender = gender
+    if (role) query.role = role
+    if (is_active !== undefined) query.is_active = is_active;
+
+    const res = await apiClient<ApiEnvelope<Userlist>>("/api/v1/user/all-users", { query });
+    return res.data
+};
+
+export type UpdatUserStatus = {
+    is_active?: boolean;
+    is_blocked?: boolean;
+};
+
+export const updateUserStatus = async (id: string, payload: UpdatUserStatus) => {
+    const res = await apiClient<ApiEnvelope<UserData>>(`/api/v1/user/${id}`, {
+        method: "PUT",
+        body: payload
+    });
+    return res.data
+};

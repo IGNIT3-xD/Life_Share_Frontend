@@ -1,4 +1,4 @@
-import { fetchForgetPassword, fetchLogin, fetchMe, fetchRegister, fetchResetPassword, fetchVerifyEmail, logout, updateMyProfile, UpdateProfilePayload, type RegisterPayload } from "@/api/auth"
+import { fetchAllUsersAdmin, fetchForgetPassword, fetchLogin, fetchMe, fetchRegister, fetchResetPassword, fetchVerifyEmail, logout, updateMyProfile, UpdateProfilePayload, updateUserStatus, UpdatUserStatus, UserFilters, type RegisterPayload } from "@/api/auth"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useRegister = () => {
@@ -71,6 +71,27 @@ export const useLogout = () => {
         onSuccess: async () => {
             await qc.cancelQueries();
             qc.clear();
+        },
+    });
+};
+
+// Admin controlled
+export const useFetchAllUsers = (filters: UserFilters) => {
+    return useQuery({
+        queryKey: ["all_users_admin", JSON.stringify(filters)],
+        queryFn: () => fetchAllUsersAdmin(filters),
+        placeholderData: (prev) => prev
+    })
+};
+
+export const useUpdateUserStatus = () => {
+    const qc = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ id, payload }: { id: string, payload: UpdatUserStatus }) =>
+            updateUserStatus(id, payload),
+        onSuccess: () => {
+            qc.invalidateQueries({ queryKey: ["all_users_admin"] })
         },
     });
 };
