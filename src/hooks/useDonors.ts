@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createDonorProfile, deleteMyDonorProfile, type DonorFilters, type DonorProfileCreatePayload, fetchAllDOnors, fetchDonorDetails, fetchDonors, fetchMyDonorProfile, updateMyDonorProfile } from "@/api/donors";
+import { createDonorProfile, deleteDonorProfile, deleteMyDonorProfile, type DonorFilters, type DonorProfileCreatePayload, fetchAllDOnors, fetchAllDonorsAdmin, fetchDonorDetails, fetchDonors, fetchMyDonorProfile, StatusPayload, updateDonorProfileStatus, updateMyDonorProfile } from "@/api/donors";
 
 export function useDonors(rawPage = 1, rawLimit = 3) {
   return useQuery({
@@ -64,3 +64,32 @@ export const useDonorDetails = (id: string) => {
     staleTime: 1000 * 60 * 2,
   })
 }
+
+// Admin controlled
+export const useAllDonorsAdmin = (filters: DonorFilters = {}) => {
+  return useQuery({
+    queryKey: ["all_donors_admin", JSON.stringify(filters)],
+    queryFn: () => fetchAllDonorsAdmin(filters),
+    placeholderData: (prev) => prev,
+  })
+}
+
+export const useUpdateDonorProfileStatus = () => {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: StatusPayload }) =>
+      updateDonorProfileStatus(id, payload),
+
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["all_donors_admin"] }),
+  });
+};
+
+export const useDeleteDonorProfileAdmin = () => {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => deleteDonorProfile(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["all_donors_admin"] }),
+  });
+};

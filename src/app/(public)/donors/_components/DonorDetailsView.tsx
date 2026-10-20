@@ -259,7 +259,7 @@ export function DonorDetailsView({
                         <InfoRow
                             icon={<Calendar className="w-4 h-4" />}
                             label="Last Donated"
-                            value={formatDate(donor.lastDonationDate)}
+                            value={formatDate(donor?.lastDonationDate)}
                             muted={!donor.lastDonationDate}
                         />
                     </div>

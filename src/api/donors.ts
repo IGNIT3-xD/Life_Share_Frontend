@@ -8,6 +8,7 @@ export type DonorList = {
 
 export type DonorFilters = {
   search?: string;
+  donorStatus?: string;
   blood_group?: string;
   availability?: string;
   location?: string;
@@ -61,15 +62,15 @@ export type DonorDetailsResponse = {
   height: string;
   donorStatus: string;
   totalDonations: number;
-  lastDonationDate: string;
+  lastDonationDate: string | null;
   created_at: string;
   updated_at: string;
   userId: string;
   user: {
     name: string;
     gender: string;
-    phone: string;
-    profile_pic: string;
+    phone: string | null;
+    profile_pic: string | null;
   };
 };
 
@@ -147,3 +148,39 @@ export const fetchDonorDetails = async (id: string) => {
   const res = await apiClient<ApiEnvelope<DonorDetailsResponse>>(`${prefix}/donor-profile/${id}`);
   return res.data
 }
+
+// Admin controlled
+export const fetchAllDonorsAdmin = async (filters: DonorFilters = {}) => {
+  const { search, donorStatus, availability, blood_group, rawLimit = 9, rawPage = 1, sortBy = 'desc' } = filters
+
+  const query: Record<string, string | number> = {
+    rawPage, rawLimit, sortBy
+  }
+
+  if (search) query.search = search
+  if (availability) query.availability = availability
+  if (blood_group) query.blood_group = blood_group
+  if (donorStatus) query.donorStatus = donorStatus
+
+  const res = await apiClient<ApiEnvelope<DonorList>>("/api/v1/donor/admin", { query });
+  return res.data;
+}
+
+export type StatusPayload = {
+  donorStatus: "IN_PROGRESS" | "VERIFIED" | "NOT_ELIGIBLE"
+}
+
+export async function updateDonorProfileStatus(id: string, payload: StatusPayload) {
+  const res = await apiClient<ApiEnvelope<DonorList>>(`/api/v1/donor/donor-profile-status/${id}`, {
+    method: "PUT",
+    body: payload
+  });
+  return res.data
+}
+
+export async function deleteDonorProfile(id: string) {
+  const res = await apiClient<ApiEnvelope<{ successs: boolean }>>(`/api/v1/donor/donor-profile/${id}`, {
+    method: "DELETE"
+  });
+  return res.data
+} 
