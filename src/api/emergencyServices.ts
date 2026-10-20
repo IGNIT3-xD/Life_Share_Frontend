@@ -40,7 +40,7 @@ export type ServiceFilter = {
   sortByPrice?: "asc" | "desc";
   rawPage?: number;
   rawLimit?: number;
-}
+};
 
 export type CreateAndUpdateServicePayload = {
   service_name?: string;
@@ -49,7 +49,7 @@ export type CreateAndUpdateServicePayload = {
   price?: number;
   availability?: string;
   service_image?: string;
-}
+};
 
 export interface Service {
   id: string;
@@ -74,25 +74,35 @@ export interface Service {
   };
 }
 
-const prefix = "/api/v1/emergency-service"
+const prefix = "/api/v1/emergency-service";
 
 export async function fetchEmergencyServices(
   rawPage = 1,
   rawLimit = 3,
 ): Promise<EmergencyServiceList> {
-  const res = await apiClient<ApiEnvelope<EmergencyServiceList>>(
-    `${prefix}`,
-    { query: { rawPage, rawLimit } },
-  );
+  const res = await apiClient<ApiEnvelope<EmergencyServiceList>>(`${prefix}`, {
+    query: { rawPage, rawLimit },
+  });
   return res.data;
 }
 
-export async function fetchAllEmergencyServices(filters: ServiceFilter = {}): Promise<EmergencyServiceList> {
-  const { search, service_status, service_category, sortByPrice, sortBy, rawPage = 1, rawLimit = 10 } = filters
+export async function fetchAllEmergencyServices(
+  filters: ServiceFilter = {},
+): Promise<EmergencyServiceList> {
+  const {
+    search,
+    service_status,
+    service_category,
+    sortByPrice,
+    sortBy,
+    rawPage = 1,
+    rawLimit = 10,
+  } = filters;
 
   const query: Record<string, string | number> = {
-    rawPage, rawLimit
-  }
+    rawPage,
+    rawLimit,
+  };
 
   if (sortByPrice) {
     query.sortByPrice = sortByPrice;
@@ -100,19 +110,21 @@ export async function fetchAllEmergencyServices(filters: ServiceFilter = {}): Pr
     query.sortBy = sortBy;
   }
 
-  if (search) query.search = search
-  if (service_category) query.service_category = service_category
-  if (service_status) query.service_status = service_status
+  if (search) query.search = search;
+  if (service_category) query.service_category = service_category;
+  if (service_status) query.service_status = service_status;
 
   const res = await apiClient<ApiEnvelope<EmergencyServiceList>>(`${prefix}`, {
-    query
+    query,
   });
   return res.data;
 }
 
 export async function fetchEmergencyServiceDetails(id: string) {
-  const res = await apiClient<ApiEnvelope<ServiceDetailsResponse>>(`${prefix}/${id}`);
-  return res.data
+  const res = await apiClient<ApiEnvelope<ServiceDetailsResponse>>(
+    `${prefix}/${id}`,
+  );
+  return res.data;
 }
 
 const buildFormData = (payload: CreateAndUpdateServicePayload, file?: File) => {
@@ -123,26 +135,40 @@ const buildFormData = (payload: CreateAndUpdateServicePayload, file?: File) => {
       formData.append(key, String(value));
   });
 
-  if (file)
-    formData.append("service_image", file);
+  if (file) formData.append("service_image", file);
 
   return formData;
 };
 
-export async function createEmergencyService(payload: CreateAndUpdateServicePayload, file?: File) {
-  const res = await apiClient<ApiEnvelope<Service>>(`${prefix}/create-service`, {
-    method: "POST",
-    body: buildFormData(payload, file),
-  });
+export async function createEmergencyService(
+  payload: CreateAndUpdateServicePayload,
+  file?: File,
+) {
+  const res = await apiClient<ApiEnvelope<Service>>(
+    `${prefix}/create-service`,
+    {
+      method: "POST",
+      body: buildFormData(payload, file),
+    },
+  );
   return res.data;
 }
 
 export async function fetchMyEmergencyServices(filters: ServiceFilter = {}) {
-  const { search, service_status, service_category, sortByPrice, sortBy, rawPage = 1, rawLimit = 10 } = filters
+  const {
+    search,
+    service_status,
+    service_category,
+    sortByPrice,
+    sortBy,
+    rawPage = 1,
+    rawLimit = 10,
+  } = filters;
 
   const query: Record<string, string | number> = {
-    rawPage, rawLimit
-  }
+    rawPage,
+    rawLimit,
+  };
 
   if (sortByPrice) {
     query.sortByPrice = sortByPrice;
@@ -150,27 +176,103 @@ export async function fetchMyEmergencyServices(filters: ServiceFilter = {}) {
     query.sortBy = sortBy;
   }
 
-  if (search) query.search = search
-  if (service_category) query.service_category = service_category
-  if (service_status) query.service_status = service_status
+  if (search) query.search = search;
+  if (service_category) query.service_category = service_category;
+  if (service_status) query.service_status = service_status;
 
-  const res = await apiClient<ApiEnvelope<EmergencyServiceList>>(`${prefix}/my-services`, {
-    query
-  });
+  const res = await apiClient<ApiEnvelope<EmergencyServiceList>>(
+    `${prefix}/my-services`,
+    {
+      query,
+    },
+  );
   return res.data;
 }
 
-export async function updateMyEmergencyService(id: string, payload: CreateAndUpdateServicePayload, file?: File) {
-  const res = await apiClient<ApiEnvelope<Service>>(`${prefix}/update-service/${id}`, {
-    method: "PATCH",
-    body: buildFormData(payload, file),
-  });
+export async function updateMyEmergencyService(
+  id: string,
+  payload: CreateAndUpdateServicePayload,
+  file?: File,
+) {
+  const res = await apiClient<ApiEnvelope<Service>>(
+    `${prefix}/update-service/${id}`,
+    {
+      method: "PATCH",
+      body: buildFormData(payload, file),
+    },
+  );
   return res.data;
 }
 
 export async function deleteMyEmergencyService(id: string) {
-  const res = await apiClient<ApiEnvelope<{ success: boolean }>>(`${prefix}/my-service/${id}`, {
-    method: "DELETE"
+  const res = await apiClient<ApiEnvelope<{ success: boolean }>>(
+    `${prefix}/my-service/${id}`,
+    {
+      method: "DELETE",
+    },
+  );
+  return res.data;
+}
+
+// Admin controlled
+export async function fetchAllEmergencyServicesAdmin(
+  filters: ServiceFilter = {},
+): Promise<EmergencyServiceList> {
+  const {
+    search,
+    service_status,
+    service_category,
+    sortByPrice,
+    sortBy,
+    rawPage = 1,
+    rawLimit = 10,
+  } = filters;
+
+  const query: Record<string, string | number> = {
+    rawPage,
+    rawLimit,
+  };
+
+  if (sortByPrice) {
+    query.sortByPrice = sortByPrice;
+  } else if (sortBy) {
+    query.sortBy = sortBy;
+  }
+
+  if (search) query.search = search;
+  if (service_category) query.service_category = service_category;
+  if (service_status) query.service_status = service_status;
+
+  const res = await apiClient<ApiEnvelope<EmergencyServiceList>>(
+    `${prefix}/admin`,
+    {
+      query,
+    },
+  );
+  return res.data;
+}
+
+export type UpdateServiceStatus = {
+  service_status: "ACTIVE" | "IN_PROGRESS" | "INACTIVE";
+};
+
+export async function updateServciceStatus(
+  id: string,
+  payload: UpdateServiceStatus,
+) {
+  const res = await apiClient(`${prefix}/update-service-status/${id}`, {
+    method: "PUT",
+    body: payload,
   });
   return res.data;
 }
+
+export async function deleteServciceAdmin(id: string) {
+  const res = await apiClient<ApiEnvelope<{ success: boolean }>>(
+    `${prefix}/my-service/${id}`,
+    {
+      method: "DELETE",
+    },
+  );
+  return res.data;
+};

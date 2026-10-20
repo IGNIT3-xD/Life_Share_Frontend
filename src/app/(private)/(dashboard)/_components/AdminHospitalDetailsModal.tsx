@@ -1,7 +1,8 @@
 "use client";
 
+import Image from 'next/image'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Building2, Mail, MapPin, Phone, ShieldCheck, FileBadge } from "lucide-react";
+import { Building2, MapPin, Phone, ShieldCheck, FileBadge } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { HospitalProfileResponse } from "@/api/hospital";
 
@@ -30,7 +31,18 @@ export function AdminHospitalDetailsModal({ open, onOpenChange, hospital }: Prop
                     {/* Header Info */}
                     <div className="flex items-center gap-4">
                         <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100">
-                            <Building2 className="w-7 h-7 text-blue-600" />
+                            {
+                                hospital.user.profile_pic ? (
+                                    <Image
+                                        src={hospital.user.profile_pic}
+                                        alt='Hospital profile pic'
+                                        width={42}
+                                        height={42}
+                                        className="w-full h-full object-cover border border-blue-100 rounded-lg"
+                                    />
+                                ) :
+                                    <Building2 className="w-7 h-7 text-blue-600" />
+                            }
                         </div>
                         <div className="min-w-0 flex-1">
                             <h3 className="text-lg font-bold text-slate-900 truncate">{hospital.user.name}</h3>

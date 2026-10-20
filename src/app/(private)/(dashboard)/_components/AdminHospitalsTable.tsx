@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image'
 import { Eye, MoreHorizontal, Pencil, Trash2, Building2 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -41,7 +42,17 @@ export function AdminHospitalsTable({ hospitals, onView, onUpdateStatus, onDelet
                                 <TableCell className="pl-6 py-4">
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100">
-                                            <Building2 className="w-4 h-4 text-blue-600" />
+                                            {h.user.profile_pic ? (
+                                                <Image
+                                                    src={h.user.profile_pic}
+                                                    alt="User profile"
+                                                    width={32}
+                                                    height={32}
+                                                    className="w-full h-full object-cover rounded-lg"
+                                                />
+                                            ) : (
+                                                <Building2 className="w-4 h-4 text-blue-600" />
+                                            )}
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="font-semibold text-slate-900 text-sm">{h.user.name}</span>

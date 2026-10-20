@@ -1,4 +1,4 @@
-import { apiClient, PageMeta, type ApiEnvelope } from "./client";
+import { apiClient, type PageMeta, type ApiEnvelope } from "./client";
 
 const prefix = "/api/v1/hospital"
 
@@ -25,6 +25,7 @@ export type HospitalProfileResponse = {
     user_id: string;
     user: {
         name: string;
+        profile_pic?: string;
         email: string;
         address: string;
         phone?: string;
