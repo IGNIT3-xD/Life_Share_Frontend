@@ -115,3 +115,18 @@ export async function updatePaymentStatus(id: string, payload: UpdatePaymentStat
     });
     return res.data
 }
+
+export async function fetchMyPayments(filters: PaymentFilters = {}) {
+    const { search, payment_gateway, payment_status, sortBy = 'desc', rawLimit = 10, rawPage = 1 } = filters
+
+    const query: Record<string, string | number> = {
+        rawPage, rawLimit, sortBy
+    }
+
+    if (search) query.search = search
+    if (payment_gateway) query.payment_gateway = payment_gateway
+    if (payment_status) query.payment_status = payment_status
+
+    const res = await apiClient<ApiEnvelope<PaymentList>>("/api/v1/payment/my-payments", { query });
+    return res.data
+}

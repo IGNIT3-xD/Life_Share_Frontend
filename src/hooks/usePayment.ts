@@ -1,4 +1,4 @@
-import { createPayment, fetchAllPayments, fetchHospitalPayments, fetchPaymentDetails, type UpdatePaymentStatus, updatePaymentStatus, type PaymentFilters } from "@/api/payment";
+import { createPayment, fetchAllPayments, fetchHospitalPayments, fetchPaymentDetails, type UpdatePaymentStatus, updatePaymentStatus, type PaymentFilters, fetchMyPayments } from "@/api/payment";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCreatePayment() {
@@ -41,4 +41,12 @@ export function useUpdatePaymentStatus() {
             qc.invalidateQueries({ queryKey: ['all_payments_hospital'] })
         }
     })
+}
+
+export function useFetchMyPayments(filters: PaymentFilters = {}) {
+    return useQuery({
+        queryKey: ["my_payments", JSON.stringify(filters)],
+        queryFn: () => fetchMyPayments(filters),
+        placeholderData: (prev) => prev,
+    });
 }

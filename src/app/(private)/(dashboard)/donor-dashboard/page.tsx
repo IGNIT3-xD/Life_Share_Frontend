@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { RecentPaymentsWidget } from "../user-dashboard/_components/RecentPaymentsWidget";
 
 export default function DonorDashboardPage() {
     const { data: me } = useMe();
@@ -154,6 +155,8 @@ export default function DonorDashboardPage() {
                 </Card>
 
             </div>
+
+            <RecentPaymentsWidget dashboardBasePath="/user-dashboard" />
         </div>
     );
 }

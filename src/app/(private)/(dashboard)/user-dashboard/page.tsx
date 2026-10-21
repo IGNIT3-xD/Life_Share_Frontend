@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { RecentPaymentsWidget } from "./_components/RecentPaymentsWidget";
 
 const formatCurrency = (value: number) => {
     return `৳${value.toLocaleString("en-BD")}`;
@@ -153,8 +154,9 @@ export default function UserDashboardPage() {
                         <StatusBar label="Cancelled" value={stats.bookings.cancelled} total={stats.bookings.total} color="bg-slate-400" icon={<XCircle className="w-4 h-4" />} />
                     </CardContent>
                 </Card>
-
             </div>
+
+            <RecentPaymentsWidget dashboardBasePath="/user-dashboard" />
         </div>
     );
 }

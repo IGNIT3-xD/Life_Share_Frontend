@@ -6,6 +6,7 @@ import { AdminQuickStats } from "./_components/AdminQuickStats";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, CreditCard, TrendingUp, ShieldAlert, DollarSign } from "lucide-react";
 import { useMe } from "@/hooks/useAuth";
+import { RecentPaymentsWidget } from "../user-dashboard/_components/RecentPaymentsWidget";
 
 const formatCurrency = (value: number | string) => {
     const num = Number(value);
@@ -115,6 +116,8 @@ export default function AdminDashboardPage() {
                     ) : null}
                 </div>
             </div>
+
+            <RecentPaymentsWidget dashboardBasePath="/user-dashboard" />
         </div>
     );
 }

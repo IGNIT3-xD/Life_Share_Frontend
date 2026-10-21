@@ -1,4 +1,4 @@
-import { LayoutGrid, Users, FileText, FileSearchCorner, BookCheck, Siren, ListChecks, ClipboardList, HeartPulse, UserGroup, Hospital, Ambulance, Wallet } from "lucide-react";
+import { LayoutGrid, Users, FileText, FileSearchCorner, BookCheck, Siren, ListChecks, ClipboardList, HeartPulse, UserGroup, Hospital, Ambulance, Wallet, Landmark } from "lucide-react";
 
 export type NavItem = {
     name: string;
@@ -13,6 +13,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "My Donation Requests", href: "/user-dashboard/my-donation-requests", icon: FileSearchCorner },
         { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
         { name: "Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
+        { name: "My Payments", href: "/user-dashboard/my-payments", icon: Wallet },
     ],
     HOSPITAL: [
         { name: "Overview", href: "/hospital-dashboard", icon: LayoutGrid },
@@ -25,6 +26,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "Overview", href: "/donor-dashboard", icon: LayoutGrid },
         { name: "My Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
         { name: "Donation Request", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
+        { name: "My Payments", href: "/user-dashboard/my-payments", icon: Wallet },
     ],
     ADMIN: [
         { name: "Overview", href: "/admin-dashboard", icon: LayoutGrid },
@@ -34,5 +36,6 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "Manage Blood Requests", href: "/admin-dashboard/all-requesters", icon: UserGroup },
         { name: "Manage Hospitals", href: "/admin-dashboard/all-hospitals", icon: Hospital },
         { name: "Manage Emergency Services", href: "/admin-dashboard/all-emergency-services", icon: Ambulance },
+        { name: "My Payments", href: "/user-dashboard/my-payments", icon: Landmark },
     ],
 };
