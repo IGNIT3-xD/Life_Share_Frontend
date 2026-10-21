@@ -174,7 +174,7 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-3 inset-x-3 md:inset-x-6 lg:inset-x-10 max-w-7xl mx-auto z-50 font-graphik">
-      <nav className="relative flex items-center justify-between px-4 py-3 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl text-white shadow-2xl transition-all duration-300">
+      <nav className="relative flex items-center justify-between px-4 py-3 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl text-white transition-all duration-300">
 
         {/* Left: Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0">

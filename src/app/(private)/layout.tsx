@@ -1,5 +1,3 @@
-import Navbar from "@/components/Navbar";
-
 export default function PublicLayout({
     children,
 }: {
@@ -7,7 +5,6 @@ export default function PublicLayout({
 }) {
     return (
         <div>
-            <Navbar />
             <div className="flex-1">{children}</div>
         </div>
     );

@@ -64,7 +64,7 @@ export default function AdminDonorsPage() {
   const hasActiveFilters = !!search || !!bloodGroup || !!availability || !!status || sortBy !== "desc";
 
   return (
-    <div className="space-y-6 pt-16">
+    <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-primary">

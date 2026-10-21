@@ -64,7 +64,7 @@ export default function AdminEmergencyServicesPage() {
     const hasActiveFilters = !!search || !!category || !!status || sort !== "newest";
 
     return (
-        <div className="space-y-6 pt-16">
+        <div className="space-y-6">
             {/* Header */}
             <div>
                 <h1 className="text-primary">

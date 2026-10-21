@@ -17,7 +17,7 @@ export default function HospitalProfilePage() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     return (
-        <div className="space-y-6 pt-16">
+        <div className="space-y-6">
             <div>
                 <h1 className="text-primary">
                     Hospital <span className="text-[#B15A36]">Profile</span>

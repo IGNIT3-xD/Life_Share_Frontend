@@ -19,7 +19,7 @@ export default function AdminDashboardPage() {
     const { data: revenue, isPending: revenueLoading } = useAdminRevenueMetrics();
 
     return (
-        <div className="space-y-6 pt-16">
+        <div className="space-y-6">
             {/* Header */}
             <div>
                 <h1 className="text-primary">

@@ -1,12 +1,25 @@
 "use client";
 
 import { useMe } from "@/hooks/useAuth";
-import { DashboardSidebar } from "./_components/DashboardSidebar";
-import { MobileSidebar } from "./_components/MobileSidebar";
-import { DashboardSkeleton } from "./_components/DashboarsSkleton";
 import { DashboardProvider } from "@/contexts/DashboardContext";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
+import {
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { Loader2 } from "lucide-react";
+import { AppSidebar } from "@/components/AppSidebar";
 
 export default function DashboardLayout({
     children,
@@ -15,6 +28,7 @@ export default function DashboardLayout({
 }) {
     const { data, isPending, error } = useMe();
     const router = useRouter();
+    const pathname = usePathname();
 
     // Redirect in an effect, not during render
     useEffect(() => {
@@ -23,28 +37,58 @@ export default function DashboardLayout({
         }
     }, [error, isPending, data, router]);
 
-    if (isPending) return <DashboardSkeleton />;
+    if (isPending) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA]">
+                <Loader2 className="w-8 h-8 animate-spin text-[#B15A36]" />
+            </div>
+        );
+    }
+
     if (!data) return null;
+
+    // Generate a simple page title based on the URL for the breadcrumb
+    const pageTitle = pathname.split("/").pop()?.replace(/-/g, " ") || "Dashboard";
+    const capitalizedTitle = pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1);
 
     return (
         <DashboardProvider user={data}>
-            <div className="flex min-h-screen bg-[#F8F9FA] font-graphik">
-                {/* ---- Desktop Sidebar (lg and up) ---- */}
-                <DashboardSidebar role={data.role} />
+            <SidebarProvider>
+                <AppSidebar role={data.role} />
+                <SidebarInset className="bg-[#F8F9FA] font-graphik">
 
-                {/* ---- Main Content ---- */}
-                <div className="flex-1 flex flex-col min-w-0">
-                    {/* ---- Mobile Top Bar (below lg) ---- */}
-                    <header className="lg:hidden sticky top-16 z-40 flex items-center gap-3 bg-[#F8F9FA]/95 backdrop-blur-sm border-b border-slate-200 px-4 py-3">
-                        <MobileSidebar role={data.role} />
+                    {/* Top Header with Trigger and Breadcrumbs */}
+                    <header className="flex h-16 shrink-0 items-center gap-2 border-b border-slate-200 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+                        <div className="flex items-center gap-2 px-4">
+                            <SidebarTrigger className="-ml-1 text-slate-500 hover:text-slate-900" />
+                            <Separator orientation="vertical" className="mr-2 h-4" />
+                            <Breadcrumb>
+                                <BreadcrumbList>
+                                    <BreadcrumbItem className="hidden md:block">
+                                        <BreadcrumbLink href={`/${data.role.toLowerCase()}-dashboard`}>
+                                            {data.role.charAt(0) + data.role.slice(1).toLowerCase()} Dashboard
+                                        </BreadcrumbLink>
+                                    </BreadcrumbItem>
+                                    {pageTitle !== "Dashboard" && (
+                                        <>
+                                            <BreadcrumbSeparator className="hidden md:block" />
+                                            <BreadcrumbItem>
+                                                <BreadcrumbPage className="capitalize">{capitalizedTitle}</BreadcrumbPage>
+                                            </BreadcrumbItem>
+                                        </>
+                                    )}
+                                </BreadcrumbList>
+                            </Breadcrumb>
+                        </div>
                     </header>
 
-                    {/* ---- Content ---- */}
-                    <main className="flex-1 p-4 sm:p-6 lg:ml-24">
+                    {/* Main Content Area */}
+                    <main className="flex-1 p-4 md:p-6 lg:p-6">
                         {children}
                     </main>
-                </div>
-            </div>
+
+                </SidebarInset>
+            </SidebarProvider>
         </DashboardProvider>
     );
 }

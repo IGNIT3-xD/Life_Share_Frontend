@@ -3,8 +3,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const Graphik = localFont({
   src: [
@@ -61,11 +61,12 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </Providers>
-        <Toaster position="top-right" closeButton richColors/>
+        <TooltipProvider>
+          <Providers>
+            <div className="flex-1">{children}</div>
+          </Providers>
+          <Toaster position="top-right" closeButton richColors />
+        </TooltipProvider>
       </body>
     </html>
   );
