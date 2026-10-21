@@ -44,6 +44,31 @@ export type RevenueData = {
     monthly: MonthlyRevenue[];
 };
 
+export type UserDashboardStats = {
+    payments: {
+        totalPaid: number;
+        totalTransactions: number;
+    };
+    bloodRequests: {
+        total: number;
+        pending: number;
+        inProgress: number;
+        completed: number;
+        cancelled: number;
+    };
+    donations: {
+        received: number;
+        completed: number;
+    };
+    bookings: {
+        total: number;
+        pending: number;
+        accepted: number;
+        confirmed: number;
+        cancelled: number;
+    };
+};
+
 const prefix = "api/v1/analytics";
 
 export async function fetchAllAdminAnalytics() {
@@ -53,5 +78,10 @@ export async function fetchAllAdminAnalytics() {
 
 export async function fetchAdminRevenueMetrics() {
     const res = await apiClient<ApiEnvelope<RevenueData>>(`${prefix}/revenue-metrics`);
+    return res.data;
+}
+
+export async function fetchAllUserAnalytics() {
+    const res = await apiClient<ApiEnvelope<UserDashboardStats>>(`${prefix}/me`);
     return res.data;
 }
