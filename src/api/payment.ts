@@ -88,3 +88,30 @@ export async function fetchPaymentDetails(id: string) {
     const res = await apiClient<ApiEnvelope<PaymentDetails>>(`/api/v1/payment/${id}`);
     return res.data
 }
+
+export async function fetchHospitalPayments(filters: PaymentFilters = {}) {
+    const { search, payment_gateway, payment_status, sortBy = 'desc', rawLimit = 10, rawPage = 1 } = filters
+
+    const query: Record<string, string | number> = {
+        rawPage, rawLimit, sortBy
+    }
+
+    if (search) query.search = search
+    if (payment_gateway) query.payment_gateway = payment_gateway
+    if (payment_status) query.payment_status = payment_status
+
+    const res = await apiClient<ApiEnvelope<PaymentList>>("/api/v1/payment/hospital-payments", { query });
+    return res.data
+}
+
+export type UpdatePaymentStatus = {
+    payment_status: "REFUNDED_PENDING" | "REFUNDED"
+}
+
+export async function updatePaymentStatus(id: string, payload: UpdatePaymentStatus) {
+    const res = await apiClient(`/api/v1/payment/hospital-payments/${id}`, {
+        method: "PUT",
+        body: payload
+    });
+    return res.data
+}

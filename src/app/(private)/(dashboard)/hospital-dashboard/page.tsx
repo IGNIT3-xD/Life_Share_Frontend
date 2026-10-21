@@ -1,21 +1,57 @@
 "use client";
 
+import { useState } from "react";
 import { useHospitalAnalytics } from "@/hooks/useAnalytics";
+import { useFetchAllHospitalPayments } from "@/hooks/usePayment";
 import { useMe } from "@/hooks/useAuth";
 import {
     CreditCard, CalendarCheck, Stethoscope,
-    Clock, CheckCircle2, XCircle, ArrowUpRight, RotateCcw
+    Clock, CheckCircle2, XCircle, ArrowUpRight, RotateCcw, SlidersHorizontal, Wallet
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { SearchInput } from "@/components/SearchInput";
+import { FilterSelect } from "@/components/FilterSelect";
+import type { Payment } from "@/api/payment";
+import { HospitalRecentPayments } from "../admin-dashboard/_components/HospitalRecentPayments";
+import { RefundPaymentDialog } from "../admin-dashboard/_components/RefundPaymentDialog";
 
 const formatCurrency = (value: number) => {
     return `৳${value.toLocaleString("en-BD")}`;
 };
 
+const STATUS_OPTIONS = [
+    { value: "PAID", label: "Paid" },
+    { value: "REFUNDED_PENDING", label: "Refund Pending" },
+    { value: "REFUNDED", label: "Refunded" },
+];
+
+const GATEWAY_OPTIONS = [
+    { value: "BKASH", label: "bKash" },
+    { value: "ON_HAND", label: "On Hand" },
+];
+
 export default function HospitalDashboardPage() {
     const { data: me } = useMe();
     const { data: stats, isPending, error } = useHospitalAnalytics();
+
+    const [txSearch, setTxSearch] = useState("");
+    const [txStatus, setTxStatus] = useState("");
+    const [txGateway, setTxGateway] = useState("");
+
+    const [refundPayment, setRefundPayment] = useState<Payment | null>(null);
+
+    const { data: paymentsData, isPending: paymentsLoading } = useFetchAllHospitalPayments({
+        search: txSearch || undefined,
+        payment_status: txStatus || undefined,
+        payment_gateway: txGateway || undefined,
+        sortBy: "desc",
+        rawPage: 1,
+        rawLimit: 5,
+    });
+
+    const recentPayments = paymentsData?.payment ?? [];
 
     if (isPending) {
         return (
@@ -43,11 +79,11 @@ export default function HospitalDashboardPage() {
         );
     }
 
-    // Calculate active bookings (anything not completed or cancelled)
     const activeBookings = stats.bookings.pending + stats.bookings.accepted + stats.bookings.confirmed;
+    const hasActiveTxFilters = !!txSearch || !!txStatus || !!txGateway;
 
     return (
-        <div className="space-y-8 pt-16">
+        <div className="space-y-6 pt-16">
             {/* Header */}
             <div>
                 <h1 className="text-primary">
@@ -60,8 +96,7 @@ export default function HospitalDashboardPage() {
 
             {/* Top KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-                {/* Total Revenue (Highlight) */}
+                {/* Total Revenue */}
                 <Card className="bg-linear-to-br from-[#B15A36] to-red-400 text-white border-0 shadow-md">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-medium text-white/90">Total Revenue</CardTitle>
@@ -112,8 +147,7 @@ export default function HospitalDashboardPage() {
 
             {/* Detailed Breakdown Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-                {/* 1. Booking Breakdown */}
+                {/* Booking Breakdown */}
                 <Card className="shadow-sm">
                     <CardHeader>
                         <CardTitle className="text-base font-semibold flex items-center gap-2">
@@ -129,9 +163,8 @@ export default function HospitalDashboardPage() {
                     </CardContent>
                 </Card>
 
-                {/* 2. Service & Refund Breakdown */}
+                {/* Service & Refund Breakdown */}
                 <div className="space-y-6">
-                    {/* Service Status */}
                     <Card className="shadow-sm">
                         <CardHeader>
                             <CardTitle className="text-base font-semibold flex items-center gap-2">
@@ -146,7 +179,6 @@ export default function HospitalDashboardPage() {
                         </CardContent>
                     </Card>
 
-                    {/* Refund Info */}
                     <Card className="shadow-sm border-red-100 bg-red-50/30">
                         <CardContent className="p-4 flex items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -164,17 +196,73 @@ export default function HospitalDashboardPage() {
                         </CardContent>
                     </Card>
                 </div>
-
             </div>
+
+            <div className="pt-4 space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h2 className="text-lg font-bold text-slate-900">Recent Transactions</h2>
+                        <p className="text-sm text-slate-500">Showing your last 5 transactions.</p>
+                    </div>
+
+                    {/* Compact Filter Bar */}
+                    <div className="flex flex-col sm:flex-row items-center gap-2 w-full md:w-auto">
+                        <div className="w-full sm:w-64">
+                            <SearchInput
+                                value={txSearch}
+                                onChange={setTxSearch}
+                                placeholder="Search TrxID..."
+                            />
+                        </div>
+                        <div className="flex items-center gap-2 w-full sm:w-auto">
+                            <FilterSelect
+                                value={txStatus}
+                                onChange={setTxStatus}
+                                options={STATUS_OPTIONS}
+                                placeholder="Status"
+                                icon={<SlidersHorizontal className="w-4 h-4" />}
+                                className="w-full sm:w-36"
+                            />
+                            <FilterSelect
+                                value={txGateway}
+                                onChange={setTxGateway}
+                                options={GATEWAY_OPTIONS}
+                                placeholder="Gateway"
+                                icon={<Wallet className="w-4 h-4" />}
+                                className="w-full sm:w-36"
+                            />
+                            {hasActiveTxFilters && (
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => { setTxSearch(""); setTxStatus(""); setTxGateway(""); }}
+                                    className="text-red-500 hover:text-red-600 hover:bg-red-50 px-3"
+                                >
+                                    Clear
+                                </Button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <HospitalRecentPayments
+                    payments={recentPayments}
+                    isPending={paymentsLoading}
+                    onUpdateStatus={setRefundPayment}
+                />
+            </div>
+
+            <RefundPaymentDialog
+                open={!!refundPayment}
+                onOpenChange={(o) => !o && setRefundPayment(null)}
+                payment={refundPayment}
+            />
         </div>
     );
 }
 
 // --- Helper Component for Progress Bars ---
-
 function StatusBar({ label, value, total, color, icon }: { label: string, value: number, total: number, color: string, icon: React.ReactNode }) {
     const percentage = total === 0 ? 0 : (value / total) * 100;
-
     return (
         <div>
             <div className="flex items-center justify-between text-sm mb-1.5">
@@ -184,10 +272,7 @@ function StatusBar({ label, value, total, color, icon }: { label: string, value:
                 <span className="font-semibold text-slate-900">{value}</span>
             </div>
             <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div
-                    className={cn("h-full rounded-full transition-all duration-500", color)}
-                    style={{ width: `${percentage}%` }}
-                />
+                <div className={cn("h-full rounded-full transition-all duration-500", color)} style={{ width: `${percentage}%` }} />
             </div>
         </div>
     );

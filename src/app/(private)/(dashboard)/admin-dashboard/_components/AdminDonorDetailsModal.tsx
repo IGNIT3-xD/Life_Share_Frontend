@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Droplet, Heart, Scale, MapPin, Mail, Phone, Calendar, User, ShieldCheck, Activity } from "lucide-react";
+import { Droplet, Heart, Scale, MapPin, Phone, Calendar, User, ShieldCheck, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { DonorProps } from "@/components/DonorCard";
 
