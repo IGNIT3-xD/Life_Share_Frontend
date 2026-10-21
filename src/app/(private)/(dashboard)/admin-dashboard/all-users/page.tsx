@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PaginationControls } from "@/components/PaginationControls";
 import { SearchInput } from "@/components/SearchInput";
 import { FilterSelect } from "@/components/FilterSelect";
-import { UserData } from "@/api/auth";
+import type { UserData } from "@/api/auth";
 import { useFetchAllUsers } from "@/hooks/useAuth";
 import { AdminUsersTable } from "../_components/AdminUsersTable";
 import { AdminUserDetailsModal } from "../_components/AdminUserDetailsModal";
