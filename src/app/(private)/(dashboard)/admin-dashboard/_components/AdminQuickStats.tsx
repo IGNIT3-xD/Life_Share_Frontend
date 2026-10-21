@@ -12,7 +12,6 @@ export function AdminQuickStats({ stats }: { stats: AdminDashboardStats }) {
                 <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-semibold flex items-center gap-2">
                         <Droplet className="w-4 h-4 text-red-500" /> Donors
-                        <span className="ml-auto text-lg">{stats.donors.total}</span>
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-3 gap-2 pt-2 text-center text-xs">
@@ -36,7 +35,6 @@ export function AdminQuickStats({ stats }: { stats: AdminDashboardStats }) {
                 <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-semibold flex items-center gap-2">
                         <Users className="w-4 h-4 text-blue-500" /> Requesters
-                        <span className="ml-auto text-lg">{stats.requesters.total}</span>
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-3 gap-2 pt-2 text-center text-xl">
@@ -60,7 +58,6 @@ export function AdminQuickStats({ stats }: { stats: AdminDashboardStats }) {
                 <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-semibold flex items-center gap-2">
                         <Building2 className="w-4 h-4 text-indigo-500" /> Hospitals
-                        <span className="ml-auto text-lg">{stats.hospitals.total}</span>
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 gap-2 pt-2 text-center text-xl">

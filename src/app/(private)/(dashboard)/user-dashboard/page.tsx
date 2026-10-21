@@ -58,7 +58,7 @@ export default function UserDashboardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
                 {/* Total Paid */}
-                <Card className="bg-linear-to-br from-[#B15A36] to-red-500 text-white border-0 shadow-md">
+                <Card className="bg-linear-to-br from-[#B15A36] to-red-400 text-white border-0 shadow-md">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-medium text-white/90">Total Spent</CardTitle>
                         <CreditCard className="w-4 h-4 text-white/80" />

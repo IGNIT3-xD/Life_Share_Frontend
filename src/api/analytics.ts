@@ -95,6 +95,29 @@ export type DonorDashboardStats = {
     };
 };
 
+export type HospitalDashboardStats = {
+    revenue: {
+        totalRevenue: number;
+        totalTransactions: number;
+        totalRefunded: number;
+        refundedTransactions: number;
+    };
+    bookings: {
+        totalReceived: number;
+        pending: number;
+        accepted: number;
+        confirmed: number;
+        completed: number;
+        cancelled: number;
+    };
+    services: {
+        total: number;
+        active: number;
+        inProgress: number;
+        inactive: number;
+    };
+};
+
 const prefix = "api/v1/analytics";
 
 export async function fetchAllAdminAnalytics() {
@@ -114,5 +137,10 @@ export async function fetchAllUserAnalytics() {
 
 export async function fetchAllDonorAnalytics() {
     const res = await apiClient<ApiEnvelope<DonorDashboardStats>>(`${prefix}/donor`);
+    return res.data;
+}
+
+export async function fetchAllHospitalAnalytics() {
+    const res = await apiClient<ApiEnvelope<HospitalDashboardStats>>(`${prefix}/hospital`);
     return res.data;
 }

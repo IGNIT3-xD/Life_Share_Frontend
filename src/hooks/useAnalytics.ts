@@ -1,4 +1,4 @@
-import { fetchAdminRevenueMetrics, fetchAllAdminAnalytics, fetchAllDonorAnalytics, fetchAllUserAnalytics } from "@/api/analytics"
+import { fetchAdminRevenueMetrics, fetchAllAdminAnalytics, fetchAllDonorAnalytics, fetchAllHospitalAnalytics, fetchAllUserAnalytics } from "@/api/analytics"
 import { useQuery } from "@tanstack/react-query"
 
 export const useAdminAnalytics = () => {
@@ -26,5 +26,12 @@ export const useDonorAnalytics = () => {
     return useQuery({
         queryKey: ["donor_dashboard_analytics"],
         queryFn: fetchAllDonorAnalytics
+    })
+}
+
+export const useHospitalAnalytics = () => {
+    return useQuery({
+        queryKey: ["hospital_dashboard_analytics"],
+        queryFn: fetchAllHospitalAnalytics
     })
 }
