@@ -31,13 +31,13 @@ import { useRouter } from "next/navigation";
 const getInitial = (name?: string | null) =>
   name?.trim()?.charAt(0).toUpperCase() || "?";
 
-// Helper to get the correct dashboard URL based on role
+// Helper 
 const getDashboardUrl = (role?: string) => {
   switch (role) {
     case "ADMIN": return "/admin-dashboard";
     case "HOSPITAL": return "/hospital-dashboard";
     case "DONOR": return "/donor-dashboard";
-    case "USER":
+    case "USER": return "/user-dashboard";
     default: return "/user-dashboard";
   }
 };
@@ -163,14 +163,18 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { data: me, isPending } = useMe();
 
+  const mobileDashboardUrl = getDashboardUrl(me?.role);
+
   const navLinks = [
+    { name: "Home", href: "/" },
     { name: "Find Donors", href: "/donors" },
     { name: "Blood Requesters", href: "/blood-requesters" },
-    { name: "Emergency Services", href: "/emergency-service" },
-    { name: "About", href: "/about" },
+    { name: "Emergency Services", href: "/emergency-service" }
   ];
 
-  const mobileDashboardUrl = getDashboardUrl(me?.role);
+  const allNavLinks = me
+    ? [...navLinks, { name: "Dashboard", href: mobileDashboardUrl }]
+    : navLinks;
 
   return (
     <header className="fixed top-3 inset-x-3 md:inset-x-6 lg:inset-x-10 max-w-7xl mx-auto z-50 font-graphik">
@@ -197,7 +201,7 @@ export default function Navbar() {
 
         {/* Middle: Desktop Navigation Links */}
         <div className="hidden lg:flex items-center gap-6 text-sm font-normal text-white/80">
-          {navLinks.map((link) => (
+          {allNavLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
@@ -256,7 +260,7 @@ export default function Navbar() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="absolute top-full left-0 right-0 mt-2 p-5 bg-black/95 backdrop-blur-2xl border border-white/10 rounded-2xl flex flex-col gap-2 lg:hidden shadow-2xl origin-top"
             >
-              {navLinks.map((link) => (
+              {allNavLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}

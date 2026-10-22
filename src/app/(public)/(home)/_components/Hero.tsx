@@ -144,7 +144,7 @@ export default function HeroSection() {
         </AnimatePresence>
 
         {/* Dark Overlay - Fixed bg-gradient typo */}
-        <div className="absolute inset-0 z-20 bg-linear-to-r from-black/60 via-black/30 to-black/60 pointer-events-none" />
+        <div className="absolute inset-0 z-20 bg-linear-to-r from-black/50 via-black/30 to-black/50 pointer-events-none" />
       </div>
 
       {/* Main Content Area */}

@@ -7,13 +7,28 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const links = {
-    Product: ["Features", "Pricing", "Integrations", "Changelog"],
-    Resources: ["Documentation", "Tutorials", "Blog", "Support"],
-    Company: ["About", "Careers", "Contact", "Partners"],
+    "Find Donors": [
+      { name: "Find by blood group", href: "/donors" },
+      { name: "Find by location", href: "/donors" },
+      { name: "Find by availability", href: "/donors" },
+      { name: "Request for blood", href: "/blood-requesters" },
+    ],
+    "Emergency Services": [
+      { name: "Find Emergency Service", href: "/emergency-service" },
+      { name: "Find by Category", href: "/emergency-service" },
+      { name: "Emergency ambulance", href: "/emergency-service" },
+      { name: "Support", href: "/about" },
+    ],
+    "Dashboard": [
+      { name: "Overview", href: "/login" },
+      { name: "Donation requests", href: "/" },
+      { name: "Blood requests", href: "/" },
+      { name: "Manage services", href: "/" },
+    ],
   };
 
   return (
-    <footer className="relative w-full bg-[#FAFAFA] overflow-hidden font-graphik py-10">
+    <footer className="relative w-full border-t border-black/10 overflow-hidden font-graphik py-10">
       {/* Background Watermark */}
       <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-[15rem] md:text-[20rem] font-bold text-gray-200/40 leading-none select-none pointer-events-none whitespace-nowrap">
         Life Share
@@ -21,14 +36,13 @@ export default function Footer() {
 
       <div className="relative z-10 container-main">
         {/* Main Footer Card */}
-        <div className="bg-white rounded-[2rem] border border-gray-100 p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+        <div className="bg-white rounded-[2rem] border p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             {/* Brand Column */}
             <div className="flex flex-col gap-6 lg:col-span-1">
               <Link href="/" className="flex items-center gap-2">
                 {/* Logo Mark */}
-                <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-                  {/** biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
+                <div className="w-8 h-8 bg-[#B15A36] rounded-lg flex items-center justify-center">
                   <svg
                     width="16"
                     height="16"
@@ -48,37 +62,39 @@ export default function Footer() {
               </Link>
 
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
-                Life Share empowers teams to transform raw data into clear,
-                compelling visuals — making insights easier to share,
-                understand, and act on.
+                Life Share was born from a simple belief: no one should lose their life waiting for blood. We bridge the gap between those who need help and those willing to give it.
               </p>
 
               <div className="flex items-center gap-4 text-gray-400">
                 <Link
-                  href="#"
+                  href="https://imran-alis-portfolio.vercel.app"
                   className="hover:text-gray-900 transition-colors"
-                  aria-label="Twitter"
+                  aria-label="Portfolio"
+                  target="_blank"
                 >
                   <FaXTwitter className="w-5 h-5" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://github.com/IGNIT3-xD"
                   className="hover:text-gray-900 transition-colors"
                   aria-label="Instagram"
+                  target="_blank"
                 >
                   <FaInstagram className="w-5 h-5" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://www.linkedin.com/in/imran-ali-mern/"
                   className="hover:text-gray-900 transition-colors"
                   aria-label="LinkedIn"
+                  target="_blank"
                 >
                   <FaLinkedin className="w-5 h-5" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://github.com/IGNIT3-xD"
                   className="hover:text-gray-900 transition-colors"
                   aria-label="GitHub"
+                  target="_blank"
                 >
                   <FaGithub className="w-5 h-5" />
                 </Link>
@@ -94,12 +110,12 @@ export default function Footer() {
                   </h4>
                   <ul className="flex flex-col gap-3">
                     {items.map((item) => (
-                      <li key={item}>
+                      <li key={item.name}>
                         <Link
-                          href="#"
-                          className="text-sm text-gray-500 hover:text-gray-900 transition-colors duration-200"
+                          href={item.href}
+                          className="text-sm text-gray-500 hover:text-[#B15A36] transition-colors duration-200"
                         >
-                          {item}
+                          {item.name}
                         </Link>
                       </li>
                     ))}
@@ -116,19 +132,19 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-6">
               <Link
-                href="#"
+                href="/privacy"
                 className="text-xs text-gray-400 hover:text-gray-900 transition-colors underline decoration-gray-300 hover:decoration-gray-900 underline-offset-4"
               >
                 Privacy Policy
               </Link>
               <Link
-                href="#"
+                href="/terms"
                 className="text-xs text-gray-400 hover:text-gray-900 transition-colors underline decoration-gray-300 hover:decoration-gray-900 underline-offset-4"
               >
                 Terms of Service
               </Link>
               <Link
-                href="#"
+                href="/cookies"
                 className="text-xs text-gray-400 hover:text-gray-900 transition-colors underline decoration-gray-300 hover:decoration-gray-900 underline-offset-4"
               >
                 Cookies Settings
