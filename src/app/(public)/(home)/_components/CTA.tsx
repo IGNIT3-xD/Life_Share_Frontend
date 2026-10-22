@@ -14,7 +14,7 @@ export const CalToAction = () => {
           <div className="absolute left-0 top-0 h-px w-full bg-white/15" />
 
           <h2 className="font-financier italic font-light max-w-2xl text-balance text-4xl tracking-tighter text-white sm:text-5xl md:text-6xl">
-            Start donate today.
+            Start <span className="text-[#B15A36]">donate</span> today.
           </h2>
 
           <p className="mx-auto mt-6 max-w-xl text-balance font-graphik text-base leading-relaxed text-neutral-400 sm:text-lg">

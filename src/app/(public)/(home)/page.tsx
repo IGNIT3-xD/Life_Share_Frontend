@@ -4,6 +4,7 @@ import { CalToAction } from "./_components/CTA";
 import { DonorSection } from "./_components/DonorSection";
 import { EmergencyServiceSection } from "./_components/EmergencyServiceSection";
 import RequesterSection from "./_components/RequesterSection";
+import { FaqSection } from "./_components/FAQ";
 
 const Page = () => {
   return (
@@ -21,6 +22,8 @@ const Page = () => {
       <DonorSection />
       <RequesterSection />
       <EmergencyServiceSection />
+      
+      <FaqSection />
 
       <CalToAction />
     </div>

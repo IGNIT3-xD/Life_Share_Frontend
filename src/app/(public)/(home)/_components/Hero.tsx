@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { HeartPulse, UserGroup } from "lucide-react";
+import Link from "next/link";
 
 const heroVideo1WebM = "/hero_video_1.webm";
 const heroVideo2WebM = "/hero_video_2.webm";
@@ -13,19 +14,19 @@ const slides = [
   {
     id: 1,
     videoSrcWebm: heroVideo1WebM,
-    poster: "",
+    poster: "/postar1.webp",
     alt: "Sick women on the hospital bed receving blood.",
   },
   {
     id: 2,
     videoSrcWebm: heroVideo2WebM,
-    poster: "",
+    poster: "/postar2.webp",
     alt: "Paramedical team helping a patient",
   },
   {
     id: 3,
     videoSrcWebm: heroVideo3WebM,
-    poster: "",
+    poster: "/postar3.webp",
     alt: "Man and woman walking in the park",
   },
 ];
@@ -143,7 +144,7 @@ export default function HeroSection() {
         </AnimatePresence>
 
         {/* Dark Overlay - Fixed bg-gradient typo */}
-        <div className="absolute inset-0 z-20 bg-linear-to-r from-black/80 via-black/50 to-black/80 pointer-events-none" />
+        <div className="absolute inset-0 z-20 bg-linear-to-r from-black/60 via-black/30 to-black/60 pointer-events-none" />
       </div>
 
       {/* Main Content Area */}
@@ -180,11 +181,16 @@ export default function HeroSection() {
 
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 pointer-events-auto">
             <Button size={"lg"} className="btn-main bg-[#B15A36]">
-              <UserGroup /> Find a donor
+              <UserGroup />
+              <Link href={"/donors"}>
+                Find donors
+              </Link>
             </Button>
             <Button variant={"secondary"} className="btn-sec">
               <HeartPulse />
-              Request blood
+              <Link href={"/blood-requesters"}>
+                Request blood
+              </Link>
             </Button>
           </div>
         </div>

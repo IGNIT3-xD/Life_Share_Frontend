@@ -174,7 +174,7 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-3 inset-x-3 md:inset-x-6 lg:inset-x-10 max-w-7xl mx-auto z-50 font-graphik">
-      <nav className="relative flex items-center justify-between px-4 py-3 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl text-white transition-all duration-300">
+      <nav className="relative flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border border-black/30 rounded-xl text-white transition-all duration-300 shadow-sm">
 
         {/* Left: Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0">
@@ -225,7 +225,9 @@ export default function Navbar() {
 
           {!isPending && (
             <Button size={'sm'} className="hidden md:flex btn-main bg-[#B15A36] text-sm">
-              Donate Now
+              <Link href={"/donors"}>
+                Donate Now
+              </Link>
               <HeartPulse />
             </Button>
           )}
