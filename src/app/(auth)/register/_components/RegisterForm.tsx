@@ -28,6 +28,8 @@ import Link from "next/link";
 
 import { useRegister } from "@/hooks/useAuth";
 import { registerSchema, Gender, Role } from "@/app/(auth)/login/_validators/auth.validation";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import loginAnimation from "../../../../../public/Waiting.json"
 
 type GenderValue = (typeof Gender)[keyof typeof Gender];
 type RoleValue = (typeof Role)[keyof typeof Role];
@@ -332,14 +334,14 @@ export function RegisterForm({
                         </FieldGroup>
                     </form>
 
-                    <div className="relative hidden bg-muted md:block">
-                        <Image
-                            src="/random.jpg"
-                            alt="Medical Team"
-                            className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                            height={800}
-                            width={800}
-                            priority
+                    <div className="relative hidden bg-[#F8F9FA] md:flex items-center justify-center p-8 overflow-hidden">
+                        <div className="absolute inset-0 bg-linear-to-tr from-orange-50/50 to-transparent pointer-events-none" />
+
+                        <DotLottieReact
+                            data={loginAnimation}
+                            loop
+                            autoplay
+                            className="w-full max-w-md relative z-10"
                         />
                     </div>
                 </CardContent>

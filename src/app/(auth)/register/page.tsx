@@ -14,7 +14,6 @@ export default function RegisterPage() {
     const [step, setStep] = useState<Step>("register");
     const [registeredEmail, setRegisteredEmail] = useState("");
 
-    // ✅ No top padding here, let the RootLayout handle spacing
     return (
         <div className="w-full pb-10 max-w-5xl mx-auto font-graphik">
 

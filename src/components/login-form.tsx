@@ -14,11 +14,12 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { loginUserValidation } from "@/app/(auth)/login/_validators/auth.validation";
-import Image from 'next/image'
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import loginAnimation from "../../public/Waiting.json"
 
 export function LoginForm({
   className,
@@ -186,13 +187,13 @@ export function LoginForm({
             </FieldGroup>
           </form>
 
-          <div className="relative hidden bg-muted md:block">
-            <Image
-              src="/placeholder.svg"
-              alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-              height={300}
-              width={300}
+          <div className="relative hidden bg-[#F8F9FA] md:flex items-center justify-center p-8 overflow-hidden">
+            <div className="absolute inset-0 bg-linear-to-tr from-orange-50/50 to-transparent pointer-events-none" />
+            <DotLottieReact
+              data={loginAnimation}
+              loop
+              autoplay
+              className="w-full max-w-md relative z-10"
             />
           </div>
         </CardContent>
