@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { loginUserValidation } from "@/app/(auth)/login/_validators/auth.validation";
+import type { DemoAccount } from "@/app/(auth)/_components/DemoCredentials";
+import { DemoCredentials } from "@/app/(auth)/_components/DemoCredentials";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -21,10 +23,15 @@ import { useRouter } from "next/navigation";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import loginAnimation from "../../public/Waiting.json"
 
+type LoginFormProps = React.ComponentProps<"div"> & {
+  demoAccounts: DemoAccount[];
+};
+
 export function LoginForm({
   className,
+  demoAccounts,
   ...props
-}: React.ComponentProps<"div">) {
+}: LoginFormProps) {
   const [serverError, setServerError] = useState<string | null>(null);
 
   const { mutateAsync: login, isPending } = useAuth()
@@ -180,6 +187,8 @@ export function LoginForm({
                   <span className="sr-only">Login with Google</span>
                 </Button>
               </Field>
+
+              <DemoCredentials demoAccounts={demoAccounts} />
 
               <FieldDescription className="text-center">
                 Don&apos;t have an account? <Link href="/register">Sign up</Link>

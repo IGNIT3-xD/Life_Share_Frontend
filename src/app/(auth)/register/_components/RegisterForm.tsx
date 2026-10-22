@@ -27,6 +27,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useRegister } from "@/hooks/useAuth";
+import { DemoCredentials } from "@/app/(auth)/_components/DemoCredentials";
+import type { DemoAccount } from "@/app/(auth)/_components/DemoCredentials";
 import { registerSchema, Gender, Role } from "@/app/(auth)/login/_validators/auth.validation";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import loginAnimation from "../../../../../public/Waiting.json"
@@ -54,11 +56,13 @@ const DEFAULT_VALUES: {
 
 type Props = {
     onSuccess: (email: string) => void;
+    demoAccounts: DemoAccount[];
 };
 
 export function RegisterForm({
     className,
     onSuccess,
+    demoAccounts,
     ...props
 }: React.ComponentProps<"div"> & Props) {
     const [activeTab, setActiveTab] = useState<"individual" | "hospital">("individual");
@@ -326,6 +330,8 @@ export function RegisterForm({
                                     <span className="sr-only">Register with Google</span>
                                 </Button>
                             </Field>
+
+                            <DemoCredentials demoAccounts={demoAccounts} />
 
                             <FieldDescription className="text-center">
                                 Already have an account? <Link href="/login">Log in</Link>
