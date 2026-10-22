@@ -6,6 +6,16 @@ export type NavItem = {
     icon: React.ElementType;
 };
 
+export const getDashboardUrl = (role?: string) => {
+    switch (role) {
+        case "ADMIN": return "/admin-dashboard";
+        case "HOSPITAL": return "/hospital-dashboard";
+        case "DONOR": return "/donor-dashboard";
+        case "USER": return "/user-dashboard";
+        default: return "/user-dashboard";
+    }
+};
+
 export const dashboardNavConfig: Record<string, NavItem[]> = {
     USER: [
         { name: "Overview", href: "/user-dashboard", icon: LayoutGrid },
@@ -13,7 +23,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "My Donation Requests", href: "/user-dashboard/my-donation-requests", icon: FileSearchCorner },
         { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
         { name: "Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
-        { name: "Donation Request Recevied", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
+        { name: "Donation Request Received", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
         { name: "My Payments", href: "/user-dashboard/my-payments", icon: Wallet },
     ],
     HOSPITAL: [
@@ -26,7 +36,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
     DONOR: [
         { name: "Overview", href: "/donor-dashboard", icon: LayoutGrid },
         { name: "My Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
-        { name: "Donation Request Recevied", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
+        { name: "Donation Request Received", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
         { name: "My Blood Requests", href: "/user-dashboard/my-blood-request", icon: FileText },
         { name: "My Donation Requests", href: "/user-dashboard/my-donation-requests", icon: FileSearchCorner },
         { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
@@ -44,7 +54,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "My Blood Requests", href: "/user-dashboard/my-blood-request", icon: FileText },
         { name: "My Donation Requests", href: "/user-dashboard/my-donation-requests", icon: FileSearchCorner },
         { name: "My Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
-        { name: "Donation Request Recevied", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
+        { name: "Donation Request Received", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
         { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
     ],
 };

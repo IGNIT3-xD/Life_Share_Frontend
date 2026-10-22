@@ -2,8 +2,7 @@
 
 import { useMe } from "@/hooks/useAuth";
 import { DashboardProvider } from "@/contexts/DashboardContext";
-import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -26,16 +25,8 @@ export default function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const { data, isPending, error } = useMe();
-    const router = useRouter();
+    const { data, isPending } = useMe();
     const pathname = usePathname();
-
-    // Redirect in an effect, not during render
-    useEffect(() => {
-        if (error || (!isPending && !data)) {
-            router.replace("/login");
-        }
-    }, [error, isPending, data, router]);
 
     if (isPending) {
         return (

@@ -25,6 +25,7 @@ import {
 } from "./ui/dropdown-menu";
 import type { MeUser } from "@/api/auth";
 import { useLogout, useMe } from "@/hooks/useAuth";
+import { getDashboardUrl } from "@/constants/dashboard-nav";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -32,16 +33,6 @@ const getInitial = (name?: string | null) =>
   name?.trim()?.charAt(0).toUpperCase() || "?";
 
 // Helper 
-const getDashboardUrl = (role?: string) => {
-  switch (role) {
-    case "ADMIN": return "/admin-dashboard";
-    case "HOSPITAL": return "/hospital-dashboard";
-    case "DONOR": return "/donor-dashboard";
-    case "USER": return "/user-dashboard";
-    default: return "/user-dashboard";
-  }
-};
-
 function Avatar({ user, size = 32 }: { user: MeUser; size?: number }) {
   return (
     <span
