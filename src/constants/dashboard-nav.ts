@@ -13,6 +13,7 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "My Donation Requests", href: "/user-dashboard/my-donation-requests", icon: FileSearchCorner },
         { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
         { name: "Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
+        { name: "Donation Request Recevied", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
         { name: "My Payments", href: "/user-dashboard/my-payments", icon: Wallet },
     ],
     HOSPITAL: [
@@ -25,7 +26,10 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
     DONOR: [
         { name: "Overview", href: "/donor-dashboard", icon: LayoutGrid },
         { name: "My Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
-        { name: "Donation Request", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
+        { name: "Donation Request Recevied", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
+        { name: "My Blood Requests", href: "/user-dashboard/my-blood-request", icon: FileText },
+        { name: "My Donation Requests", href: "/user-dashboard/my-donation-requests", icon: FileSearchCorner },
+        { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
         { name: "My Payments", href: "/user-dashboard/my-payments", icon: Wallet },
     ],
     ADMIN: [
@@ -37,5 +41,10 @@ export const dashboardNavConfig: Record<string, NavItem[]> = {
         { name: "Manage Hospitals", href: "/admin-dashboard/all-hospitals", icon: Hospital },
         { name: "Manage Emergency Services", href: "/admin-dashboard/all-emergency-services", icon: Ambulance },
         { name: "My Payments", href: "/user-dashboard/my-payments", icon: Landmark },
+        { name: "My Blood Requests", href: "/user-dashboard/my-blood-request", icon: FileText },
+        { name: "My Donation Requests", href: "/user-dashboard/my-donation-requests", icon: FileSearchCorner },
+        { name: "My Donor Profile", href: "/user-dashboard/donor-profile", icon: Users },
+        { name: "Donation Request Recevied", href: "/donor-dashboard/my-donation-request", icon: ClipboardList },
+        { name: "My Bookings", href: "/user-dashboard/my-bookings", icon: BookCheck },
     ],
 };
