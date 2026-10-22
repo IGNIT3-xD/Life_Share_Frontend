@@ -181,22 +181,14 @@ export default function Navbar() {
       <nav className="relative flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border border-black/30 rounded-xl text-white transition-all duration-300 shadow-sm">
 
         {/* Left: Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="relative flex items-center justify-center w-7 h-7 rounded-full bg-white/10 border border-white/20">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
-          </div>
-          <span className="text-lg font-medium tracking-wide hidden sm:block">Life Share</span>
+        <Link href="/">
+            <Image
+              src={"/logo.svg"}
+              alt={"Logo"}
+              width={120}
+              height={120}
+              className="object-cover"
+            />
         </Link>
 
         {/* Middle: Desktop Navigation Links */}

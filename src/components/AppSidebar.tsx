@@ -1,9 +1,10 @@
 "use client";
 
-import * as React from "react";
+import type * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { GalleryVerticalEnd, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -46,14 +47,13 @@ export function AppSidebar({ role, ...props }: React.ComponentProps<typeof Sideb
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="hover:bg-transparent">
               <Link href="/">
-                {/* Clean logo mark */}
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-[#B15A36] text-white shadow-sm">
-                  <GalleryVerticalEnd className="size-4" />
-                </div>
-                <div className="flex flex-col gap-1 leading-none ml-1">
-                  <span className="font-semibold text-slate-900 text-[15px] tracking-tight">Life Share</span>
-                  <span className="text-[11px] font-medium text-slate-500 capitalize">{role.toLowerCase()} Portal</span>
-                </div>
+                <Image
+                  src={"/logo-inv.svg"}
+                  alt={"Logo"}
+                  width={120}
+                  height={120}
+                  className="object-cover"
+                />
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

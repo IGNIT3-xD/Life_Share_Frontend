@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { FaXTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa6";
 
 export default function Footer() {
@@ -40,25 +41,14 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             {/* Brand Column */}
             <div className="flex flex-col gap-6 lg:col-span-1">
-              <Link href="/" className="flex items-center gap-2">
-                {/* Logo Mark */}
-                <div className="w-8 h-8 bg-[#B15A36] rounded-lg flex items-center justify-center">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                  </svg>
-                </div>
-                <span className="text-xl font-bold text-gray-900 tracking-tight">
-                  Life Share
-                </span>
+              <Link href="/">
+                <Image
+                  src={"/logo-inv.svg"}
+                  alt={"Logo"}
+                  width={120}
+                  height={120}
+                  className="object-cover"
+                />
               </Link>
 
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
