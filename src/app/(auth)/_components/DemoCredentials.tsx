@@ -81,7 +81,7 @@ export function DemoCredentials({
                   "border border-slate-200 hover:border-[#B15A36] hover:text-[#B15A36] flex-col h-auto py-2.5 gap-1",
                 )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3 h-3" />
                 <span>
                   {isPending ? "Logging in..." : `Login as ${account.label}`}
                 </span>

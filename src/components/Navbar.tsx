@@ -150,9 +150,15 @@ function UserMenu({ user }: { user: MeUser }) {
   );
 }
 
-export default function Navbar() {
+export default function Navbar({
+  initialUser,
+}: {
+  initialUser?: MeUser | null;
+}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { data: me, isPending } = useMe();
+  const { data: me, isPending, fetchStatus } = useMe(initialUser ? { initialData: initialUser } : { enabled: false });
+
+  const isAwaitingAuthCheck = isPending && fetchStatus === "fetching";
 
   const mobileDashboardUrl = getDashboardUrl(me?.role);
 
@@ -197,7 +203,7 @@ export default function Navbar() {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-3">
-          {isPending ? (
+          {isAwaitingAuthCheck ? (
             <div className="hidden md:block h-8 w-20 animate-pulse rounded-full bg-white/20" />
           ) : me ? (
             <UserMenu user={me} />
@@ -210,14 +216,12 @@ export default function Navbar() {
             </Link>
           )}
 
-          {!isPending && (
-            <Button size={'sm'} className="hidden md:flex btn-main bg-[#B15A36] text-sm">
-              <Link href={"/donors"}>
-                Donate Now
-              </Link>
-              <HeartPulse />
-            </Button>
-          )}
+          <Button size={'sm'} className="hidden md:flex btn-main bg-[#B15A36] text-sm">
+            <Link href={"/donors"}>
+              Donate Now
+            </Link>
+            <HeartPulse />
+          </Button>
 
           <button
             type="button"
@@ -255,7 +259,7 @@ export default function Navbar() {
               ))}
 
               {/* Mobile Auth Section */}
-              {isPending ? (
+              {isAwaitingAuthCheck ? (
                 <div className="flex items-center gap-3 border-b border-white/5 py-3">
                   <div className="h-8 w-8 animate-pulse rounded-full bg-white/20" />
                   <div className="flex flex-col gap-1">
@@ -275,7 +279,7 @@ export default function Navbar() {
                 </div>
               ) : null}
 
-              {!isPending && me ? (
+              {!isAwaitingAuthCheck && me ? (
                 <>
                   <Link
                     href={mobileDashboardUrl}
@@ -293,7 +297,7 @@ export default function Navbar() {
                     Profile
                   </Link>
                 </>
-              ) : !isPending ? (
+              ) : !isAwaitingAuthCheck ? (
                 <Link
                   href="/login"
                   className="text-white/80 hover:text-white py-2.5 text-base border-b border-white/5 md:hidden transition-colors"

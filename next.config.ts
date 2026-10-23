@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ['192.168.0.105', '192.168.0.107', '192.168.0.104'],
   images: {
     remotePatterns: [
       {
@@ -15,6 +14,15 @@ const nextConfig: NextConfig = {
         port: "",
       },
     ],
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://life-share-backend-a6.vercel.app/api/:path*",
+      },
+    ];
   },
 };
 

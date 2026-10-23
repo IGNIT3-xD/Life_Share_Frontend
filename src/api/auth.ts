@@ -102,8 +102,10 @@ export type MeUser = {
     updated_at: string;
 };
 
-export async function fetchMe(): Promise<MeUser> {
-    const res = await apiClient<ApiEnvelope<MeUser>>("/api/v1/user/me");
+export async function fetchMe(cookieHeader?: string): Promise<MeUser> {
+    const res = await apiClient<ApiEnvelope<MeUser>>("/api/v1/user/me", {
+        headers: cookieHeader ? { cookie: cookieHeader } : undefined,
+    });
     return res.data;
 }
 

@@ -1,4 +1,4 @@
-import { fetchAllUsersAdmin, fetchForgetPassword, fetchLogin, fetchMe, fetchRegister, fetchResetPassword, fetchVerifyEmail, logout, updateMyProfile, UpdateProfilePayload, updateUserStatus, UpdatUserStatus, UserFilters, type RegisterPayload } from "@/api/auth"
+import { fetchAllUsersAdmin, fetchForgetPassword, fetchLogin, fetchMe, fetchRegister, fetchResetPassword, fetchVerifyEmail, logout, updateMyProfile, UpdateProfilePayload, updateUserStatus, UpdatUserStatus, UserFilters, type MeUser, type RegisterPayload } from "@/api/auth"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useRegister = () => {
@@ -42,10 +42,17 @@ export const useAuth = () => {
     })
 };
 
-export const useMe = () => {
+type UseMeOptions = {
+    initialData?: MeUser;
+    enabled?: boolean;
+};
+
+export const useMe = (options?: UseMeOptions) => {
     return useQuery({
         queryKey: ["user_profile"],
-        queryFn: fetchMe,
+        queryFn: () => fetchMe(),
+        initialData: options?.initialData,
+        enabled: options?.enabled ?? true,
         retry: false,
         staleTime: 1000 * 60 * 5,
     })
