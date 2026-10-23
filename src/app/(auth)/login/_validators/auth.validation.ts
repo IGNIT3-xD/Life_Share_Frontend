@@ -33,8 +33,8 @@ export const registerSchema = z
         role: z.enum([Role.USER, Role.DONOR, Role.HOSPITAL], {
             message: "Please select a valid role",
         }),
-        phone: z.string(),
-        address: z.string(),
+        phone: z.string().or(z.literal("")),
+        address: z.string().or(z.literal("")),
     })
     .superRefine((data, ctx) => {
         if (data.role === Role.HOSPITAL) {
@@ -42,6 +42,12 @@ export const registerSchema = z
                 ctx.addIssue({
                     code: "custom",
                     message: "Phone number is required for hospital profiles",
+                    path: ["phone"],
+                });
+            } else if (data.phone.replace(/\D/g, '').length < 11) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: "Phone number must be at least 11 digits",
                     path: ["phone"],
                 });
             }

@@ -59,10 +59,10 @@ export function RegisterView({ demoAccounts }: RegisterViewProps) {
                         Your account has been created successfully.
                     </p>
                     <Button
-                        onClick={() => router.push("/user-dashboard")}
+                        onClick={() => router.push("/")}
                         className="mt-8 w-full h-11 bg-[#B15A36] hover:bg-[#9a4e2e] text-white font-semibold"
                     >
-                        Go to Dashboard
+                        Go to Home
                     </Button>
                 </div>
             )}

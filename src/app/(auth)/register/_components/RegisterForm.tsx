@@ -75,12 +75,23 @@ export function RegisterForm({
         onSubmit: async ({ value }) => {
             try {
                 const finalRole = activeTab === "hospital" ? Role.HOSPITAL : value.role;
+
+                const payload = {
+                    ...value,
+                    role: finalRole,
+                    // Convert empty strings to undefined
+                    phone: value.phone?.trim() === "" ? undefined : value.phone?.trim(),
+                    address: value.address?.trim() === "" ? undefined : value.address?.trim(),
+                };
+
                 await register({
-                    payload: { ...value, role: finalRole },
+                    payload,
                     file: profilePic || undefined,
                 });
+
                 toast.success("OTP sent to your email!");
                 onSuccess(value.email);
+
             } catch (err: any) {
                 toast.error("Registration failed", {
                     description: err?.data?.message || "Please check your details and try again.",
