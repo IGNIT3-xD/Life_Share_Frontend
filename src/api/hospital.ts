@@ -106,7 +106,7 @@ export const fetchAllHospitalProfile = async (filters: HospitalFilters = {}) => 
     if (search) query.search = search
     if (hospital_status) query.hospital_status = hospital_status
 
-    const res = await apiClient<ApiEnvelope<HospitalList>>("api/v1/hospital/all-hospital-profile", { query });
+    const res = await apiClient<ApiEnvelope<HospitalList>>("/api/v1/hospital/all-hospital-profile", { query });
     return res.data
 };
 

@@ -1,4 +1,4 @@
-import { createHospitalProfile, CreateProfilePayload, deleteHospitalProfile, deleteHospitalProfileAdmin, editHospitalProfile, fetchAllHospitalProfile, fetchMyHospitalProfile, HospitalFilters, UpdateHospitalProfileStatus, updateHospitalProfileStatus, UpdateProfilePayload } from "@/api/hospital";
+import { createHospitalProfile, type CreateProfilePayload, deleteHospitalProfile, deleteHospitalProfileAdmin, editHospitalProfile, fetchAllHospitalProfile, fetchMyHospitalProfile, type HospitalFilters, type UpdateHospitalProfileStatus, updateHospitalProfileStatus, type UpdateProfilePayload } from "@/api/hospital";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateHospitalProfile() {
