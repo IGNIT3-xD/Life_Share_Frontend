@@ -7,11 +7,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, KeyRound, Loader2 } from "lucide-react";
-import Image from "next/image";
 import { toast } from "sonner";
 
 import { useResetPassword } from "@/hooks/useAuth";
 import { resetPasswordSchema } from "../../login/_validators/auth.validation";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import loginAnimation from "../../../../../public/Waiting.json"
 
 type Props = {
     email: string;
@@ -161,13 +162,14 @@ export function ResetPasswordForm({ email, onSuccess, onBack, className, ...prop
                         </FieldGroup>
                     </form>
 
-                    <div className="relative hidden bg-muted md:block">
-                        <img
-                            src="./random.png"
-                            alt="Security"
-                            className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                            height={800}
-                            width={800}
+                    <div className="relative hidden bg-[#F8F9FA] md:flex items-center justify-center p-8 overflow-hidden">
+                        <div className="absolute inset-0 bg-linear-to-tr from-orange-50/50 to-transparent pointer-events-none" />
+
+                        <DotLottieReact
+                            data={loginAnimation}
+                            loop
+                            autoplay
+                            className="w-full max-w-md relative z-10"
                         />
                     </div>
                 </CardContent>

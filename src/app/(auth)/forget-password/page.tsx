@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, KeyRound, Mail } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ForgetPasswordForm } from "./_components/ForgetPasswordForm";
 import { ResetPasswordForm } from "./_components/ResetPasswordForm";

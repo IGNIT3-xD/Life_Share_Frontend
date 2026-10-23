@@ -216,6 +216,45 @@ export function RegisterForm({
                                     </form.Field>
                                 </div>
 
+                                {/* Phone & Address (Always visible, required only for Hospital) */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                    <form.Field name="phone">
+                                        {(field) => (
+                                            <Field>
+                                                <FieldLabel className="flex justify-between items-center">
+                                                    <span>Phone {activeTab === "hospital" && <span className="text-red-500">*</span>}</span>
+                                                    {activeTab === "individual" && <span className="text-[10px] text-slate-400 font-normal">(optional)</span>}
+                                                </FieldLabel>
+                                                <Input
+                                                    value={field.state.value}
+                                                    onBlur={field.handleBlur}
+                                                    onChange={(e) => field.handleChange(e.target.value)}
+                                                    placeholder="018XXXXXXXX"
+                                                />
+                                                <FieldError errors={field.state.meta.errors} />
+                                            </Field>
+                                        )}
+                                    </form.Field>
+
+                                    <form.Field name="address">
+                                        {(field) => (
+                                            <Field>
+                                                <FieldLabel className="flex justify-between items-center">
+                                                    <span>Address {activeTab === "hospital" && <span className="text-red-500">*</span>}</span>
+                                                    {activeTab === "individual" && <span className="text-[10px] text-slate-400 font-normal">(optional)</span>}
+                                                </FieldLabel>
+                                                <Input
+                                                    value={field.state.value}
+                                                    onBlur={field.handleBlur}
+                                                    onChange={(e) => field.handleChange(e.target.value)}
+                                                    placeholder="Dhaka, Bangladesh"
+                                                />
+                                                <FieldError errors={field.state.meta.errors} />
+                                            </Field>
+                                        )}
+                                    </form.Field>
+                                </div>
+
                                 {/* Conditional: Role for Individual */}
                                 {activeTab === "individual" && (
                                     <form.Field name="role">
@@ -238,40 +277,6 @@ export function RegisterForm({
                                             </Field>
                                         )}
                                     </form.Field>
-                                )}
-
-                                {/* Conditional: Phone & Address for Hospital */}
-                                {activeTab === "hospital" && (
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-lg bg-blue-50/50 border border-blue-100 mb-4">
-                                        <form.Field name="phone">
-                                            {(field) => (
-                                                <Field>
-                                                    <FieldLabel className="text-blue-900">Phone *</FieldLabel>
-                                                    <Input
-                                                        value={field.state.value}
-                                                        onBlur={field.handleBlur}
-                                                        onChange={(e) => field.handleChange(e.target.value)}
-                                                        placeholder="018XXXXXXXX"
-                                                    />
-                                                    <FieldError errors={field.state.meta.errors} />
-                                                </Field>
-                                            )}
-                                        </form.Field>
-                                        <form.Field name="address">
-                                            {(field) => (
-                                                <Field>
-                                                    <FieldLabel className="text-blue-900">Address *</FieldLabel>
-                                                    <Input
-                                                        value={field.state.value}
-                                                        onBlur={field.handleBlur}
-                                                        onChange={(e) => field.handleChange(e.target.value)}
-                                                        placeholder="Dhaka, Bangladesh"
-                                                    />
-                                                    <FieldError errors={field.state.meta.errors} />
-                                                </Field>
-                                            )}
-                                        </form.Field>
-                                    </div>
                                 )}
 
                                 {/* Profile Pic (Moved below fields to save top space) */}
