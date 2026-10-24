@@ -156,7 +156,12 @@ export default function Navbar({
   initialUser?: MeUser | null;
 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { data: me, isPending, fetchStatus } = useMe(initialUser ? { initialData: initialUser } : { enabled: false });
+
+  // Only disable the query if the server explicitly said the user is null.
+  // If initialUser is undefined, let the client fetch it.
+  const queryOptions = initialUser === null ? { enabled: false } : initialUser ? { initialData: initialUser } : {};
+
+  const { data: me, isPending, fetchStatus } = useMe(queryOptions);
 
   const isAwaitingAuthCheck = isPending && fetchStatus === "fetching";
 
@@ -175,17 +180,19 @@ export default function Navbar({
 
   return (
     <header className="fixed top-3 inset-x-3 md:inset-x-6 lg:inset-x-10 max-w-7xl mx-auto z-50 font-graphik">
-      <nav className="relative flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border border-black/30 rounded-xl text-white transition-all duration-300 shadow-sm">
+      {/* Added min-h-[64px] to prevent the navbar from collapsing while loading */}
+      <nav className="relative flex items-center justify-between px-4 py-3 min-h-16 bg-black/50 backdrop-blur-xl border border-black/30 rounded-xl text-white transition-all duration-300 shadow-sm">
 
         {/* Left: Logo */}
-        <Link href="/">
-            <Image
-              src={"/logo.svg"}
-              alt={"Logo"}
-              width={120}
-              height={120}
-              className="object-cover"
-            />
+        <Link href="/" className="flex items-center shrink-0">
+          <Image
+            src={"/logo.svg"}
+            alt={"Logo"}
+            width={120}
+            height={32}
+            className="w-auto h-7 md:h-8 object-contain"
+            priority
+          />
         </Link>
 
         {/* Middle: Desktop Navigation Links */}
@@ -204,7 +211,7 @@ export default function Navbar({
         {/* Right: Actions */}
         <div className="flex items-center gap-3">
           {isAwaitingAuthCheck ? (
-            <div className="hidden md:block h-8 w-20 animate-pulse rounded-full bg-white/20" />
+            <div className="hidden md:block h-8 w-8 animate-pulse rounded-full bg-white/20" />
           ) : me ? (
             <UserMenu user={me} />
           ) : (
@@ -216,11 +223,11 @@ export default function Navbar({
             </Link>
           )}
 
-          <Button size={'sm'} className="hidden md:flex btn-main bg-[#B15A36] text-sm">
+          <Button asChild size={'sm'} className="hidden md:flex btn-main bg-[#B15A36] text-sm">
             <Link href={"/donors"}>
               Donate Now
+              <HeartPulse className="ml-2 w-4 h-4" />
             </Link>
-            <HeartPulse />
           </Button>
 
           <button
